@@ -7,7 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Utilities;
+using WCRepo.Model;
+using WorldCup.Utilities;
 
 namespace WorldCup
 {
@@ -15,16 +16,15 @@ namespace WorldCup
     {
         public StartForm()
         {
+            
             InitializeComponent();
         }
 
         private void StartForm_Load(object sender, EventArgs e)
         {
-
+            
             FormAutomization.CreateRadioButtonsFromSettingsOptionEnum<Gender>(gbGender);
             FormAutomization.CreateRadioButtonsFromSettingsOptionEnum<Language>(gbLanguage);
-
-            
         }
 
         private void btnApply_Click(object sender, EventArgs e)
@@ -33,12 +33,14 @@ namespace WorldCup
             {
                 string selectedGender = FormAutomization.GetSelectedRadioButton(gbGender).Text;
                 string selectedLanguage = FormAutomization.GetSelectedRadioButton(gbLanguage).Text;
+                /*
+                Utilities.Settings.SaveSettings(new Dictionary<Utilities.SettingsOptions, string> {
+                                                                                { Utilities.SettingsOptions.Gender, selectedGender },
+                                                                                { Utilities.SettingsOptions.Language, selectedLanguage }
+                });*/
 
-
-                Settings.SaveSettings(new Dictionary<SettingsOptions, string> {
-                                                                                { SettingsOptions.Gender, selectedGender },
-                                                                                { SettingsOptions.Language, selectedLanguage }
-                });
+                Settings.SaveGenderSetting(selectedGender);
+                Settings.SaveLanguageSettings(selectedLanguage);
 
                 this.Hide();
                 var worldCup = new WorldCup();

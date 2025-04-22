@@ -6,34 +6,92 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using WCRepo.Model;
 using WCRepo.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WCRepo.Repository
 {
     internal class JsonRepository : IRepository
     {
-        private string PathToData = AppDomain.CurrentDomain.BaseDirectory;
-        private string GetDataPath(Gender group) =>
-            group == Gender.men ? "worldcup.sfg.io/men/" : "worldcup.sfg.io/women/";
-
-        private string LoadJson(string filename) =>
-            File.ReadAllText(filename);
+        private static string PathToData = Path.Combine(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName,"WCRepo");
+        private string JsonDataLoad(string filename, Gender group) => File.ReadAllText(Path.Combine(PathToData, @"Data\", @$"{group}\" , filename));
 
         private List<Team> LoadTeams(Gender group)
         {
-            string json = LoadJson(Path.Combine(GetDataPath(group), "teams.json"));
+            string json = JsonDataLoad("teams.json", group);
             return JsonSerializer.Deserialize<List<Team>>(json);
         }
 
         private List<Match> LoadMatches(Gender group)
         {
-            string json = LoadJson(Path.Combine(GetDataPath(group), "matches.json"));
+            string json = JsonDataLoad("matches.json", group);
             return JsonSerializer.Deserialize<List<Match>>(json);
         }
 
-        public Player GetPlayer(int TeamID, Gender group)
+        public Player GetPlayer(int PlayerID,int TeamID, Gender group)
         {
-            throw new NotImplementedException();
+            var players = GetPlayers(TeamID, group);
+            return players.FirstOrDefault(p => p.id == PlayerID);
         }
+
+        public ISet<Player> GetPlayers(int TeamID, Gender group)
+        {
+            var teams = LoadTeams(group);
+            var team = teams.FirstOrDefault(t => t.id == TeamID);
+            if (team == null) return new HashSet<Player>();
+
+            string matchesJson = JsonDataLoad("matches.json", group);
+            var matches = JsonSerializer.Deserialize<List<JsonElement>>(matchesJson);
+
+            // Find the first match where the team played
+            var match = matches.FirstOrDefault(m =>
+                m.GetProperty("home_team_country").GetString() == team.country ||
+                m.GetProperty("away_team_country").GetString() == team.country);
+
+            if (match.ValueKind == JsonValueKind.Undefined) return new HashSet<Player>();
+
+            var statsProperty = match.GetProperty(
+                match.GetProperty("home_team_country").GetString() == team.country
+                    ? "home_team_statistics"
+                    : "away_team_statistics"
+            );
+
+            var startingEleven = statsProperty.GetProperty("starting_eleven");
+            var substitutes = statsProperty.GetProperty("substitutes");
+
+            var players = new HashSet<Player>();
+            int idCounter = 1;
+
+            foreach (var p in startingEleven.EnumerateArray())
+            {
+                players.Add(new Player
+                {
+                    id = idCounter++,
+                    name = p.GetProperty("name").GetString(),
+                    captain = p.GetProperty("captain").GetBoolean(),
+                    shirt_number = p.GetProperty("shirt_number").GetInt32(),
+                    position = p.GetProperty("position").GetString(),
+                    favorite = false
+                });
+            }
+
+            foreach (var p in substitutes.EnumerateArray())
+            {
+                players.Add(new Player
+                {
+                    id = idCounter++,
+                    name = p.GetProperty("name").GetString(),
+                    captain = p.GetProperty("captain").GetBoolean(),
+                    shirt_number = p.GetProperty("shirt_number").GetInt32(),
+                    position = p.GetProperty("position").GetString(),
+                    favorite = false
+                });
+            }
+
+            return players;
+        }
+
+
+        /*
         public ISet<Player> GetPlayers(int TeamID, Gender group)
         {
             var teams = LoadTeams(group);
@@ -46,7 +104,7 @@ namespace WCRepo.Repository
 
             if (firstMatch == null) return new HashSet<Player>();
 
-            JsonDocument matchDoc = JsonDocument.Parse(LoadJson(Path.Combine(GetDataPath(group), "matches.json")));
+            JsonDocument matchDoc = JsonDocument.Parse(JsonDataLoad("matches.json", group));
             JsonElement matchEl = matchDoc.RootElement.EnumerateArray()
                 .FirstOrDefault(m =>
                     m.GetProperty("home_team_country").GetString() == team.country ||
@@ -69,12 +127,11 @@ namespace WCRepo.Repository
                 {
                     playerSet.Add(new Player
                     {
-                        ID = idCounter++,
-                        Name = p.GetProperty("name").GetString(),
-                        Captain = p.GetProperty("captain").GetBoolean(),
-                        ShirtNumber = p.GetProperty("shirt_number").GetInt32(),
-                        Position = p.GetProperty("position").GetString(),
-                        Favorite = false
+                        name = p.GetProperty("name").GetString(),
+                        captain = p.GetProperty("captain").GetBoolean(),
+                        shirt_number = p.GetProperty("shirt_number").GetInt32(),
+                        position = p.GetProperty("position").GetString(),
+                        favorite = false
                     });
                 }
             }
@@ -83,7 +140,7 @@ namespace WCRepo.Repository
             AddPlayers(stats.GetProperty("substitutes"));
 
             return playerSet;
-        }
+        }*/
 
         public Team GetTeam(int TeamID, Gender group)
         {

@@ -1,23 +1,38 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Numerics;
+using System.Reflection;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Utilities;
+using WCRepo.Model;
+using WCRepo.Models;
+using WCRepo.Repository;
+using WorldCup.Utilities;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace WorldCup
 {
     public partial class WorldCup : Form
     {
+        private static readonly IRepository repository = RepositoryFactory.GetRepository();
+
         public WorldCup()
         {
             InitializeComponent();
+        }
+
+        private void WorldCup_Load(object sender, EventArgs e)
+        {
+            //ApplyLanguage(Settings.LoadSetting(SettingsOptions.Language));
+            LoadCountriesIntoComboBox();
+            LoadPlayersIntoPanel();
         }
 
         private void btnSettings_Click(object sender, EventArgs e)
@@ -26,33 +41,65 @@ namespace WorldCup
             settings.ShowDialog();
         }
 
-        private void WorldCup_Load(object sender, EventArgs e)
+        private void cbFavoriteTeam_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //ApplyLanguage(Settings.LoadSetting(SettingsOptions.Language));
+            try { 
+                if (cbFavoriteTeam.SelectedItem is Team selectedTeam)
+                {
+                    Settings.SaveFavoriteTeamSetting(selectedTeam);
+                    this.Text = $"WorldCup - {selectedTeam.country} ({selectedTeam.fifa_code})";
+                    LoadPlayersIntoPanel();
+                }
+            }
+            catch(Exception ex)
+            {
+                cbFavoriteTeam.SelectedIndex = -1;
+            }
+            
+        }
 
+        private void LoadCountriesIntoComboBox()
+        {
+            //suppressLoadEvents = true;
             try
             {
-                // Read the JSON file
-                string jsonString = null;
+                cbFavoriteTeam.Items.Clear();
 
-                // Deserialize the JSON string to a list of Team objects
-                List<Country> teams = JsonSerializer.Deserialize<List<Country>>(jsonString);
-
-                // Add all teams to the ComboBox
-                foreach (Country team in teams)
+                foreach (Team team in repository.GetTeams(Settings.LoadGenderTagSetting()))
                 {
                     cbFavoriteTeam.Items.Add(team);
                 }
 
-                MessageBox.Show($"{cbFavoriteTeam.Items.Count}");
-
-                // Optionally select the first item
-                if (cbFavoriteTeam.Items.Count > 0)
-                    cbFavoriteTeam.SelectedIndex = 0;
+                if (Settings.LoadFavoriteTeamSetting() != null)
+                {
+                    foreach (Team item in cbFavoriteTeam.Items)
+                    {
+                        if (item.id == Settings.LoadFavoriteTeamSetting().id) { 
+                            cbFavoriteTeam.SelectedItem = item;
+                            break;
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error loading countries: " + ex.Message);
+                MessageBox.Show(ex.ToString());
+                
+            }
+            
+
+        }
+        private void LoadPlayersIntoPanel()
+        {
+
+            if (Settings.LoadFavoriteTeamSetting() != null)
+            {
+                string MessagePlayer = "";
+                foreach (Player player in repository.GetPlayers(Settings.LoadFavoriteTeamSetting().id, Settings.LoadGenderTagSetting()))
+                {
+                    MessagePlayer += $"ID: {player.id}, Name: {player.name}, Position: {player.position}, Shirt number: {player.shirt_number}\n";
+                }
+                MessageBox.Show(MessagePlayer);
             }
         }
 

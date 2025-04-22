@@ -1,4 +1,4 @@
-using Utilities;
+using WorldCup.Utilities;
 
 namespace WorldCup
 {
@@ -14,7 +14,10 @@ namespace WorldCup
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
-            if (!Settings.FileValidation())
+            Settings.Correction();
+
+            
+            if (!SettingsValidation())
             {
                 Application.Run(new StartForm());
             }
@@ -22,6 +25,23 @@ namespace WorldCup
             {
                 Application.Run(new WorldCup());
                 
+                
+                
+            }
+        }
+
+        private static bool SettingsValidation()
+        {
+            try
+            {
+                string settingsFile = Path.Combine(HomePath.Value(), @"Settings\settings.xml");
+
+                return File.Exists(Settings.settingsFilePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return false;
             }
         }
     }

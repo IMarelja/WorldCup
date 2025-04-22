@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Settings>
+	<Gender>women</Gender>
+	<Language>EnUs</Language>
+	<FavoriteTeam id="1">Korea Republic</FavoriteTeam>
+	<FavoritePlayers>
+		<Team id="1">
+			<Player ShirtNumber="11">Igor Igorić</Player>
+			<Player ShirtNumber="5">Porić Heliš</Player>
+		</Team>
+	</FavoritePlayers>
+	<PlayerPictureAssign>
+		<Team id="1">
+			<Player ShirtNumber="11" Name="Igor Igorić">Settings\Pictures\11_Igor Igorić.jpg</Player>
+			<Player ShirtNumber="5" Name="Porić Heliš">Settings\Pictures\5_Porić Heliš.jpg</Player>
+		</Team>
+	</PlayerPictureAssign>
+</Settings>

@@ -8,7 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Utilities;
+using WCRepo.Model;
+using WorldCup.Utilities;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace WorldCup
@@ -28,12 +29,9 @@ namespace WorldCup
             {
                 string selectedGender = FormAutomization.GetSelectedRadioButton(gbGender).Text;
                 string selectedLanguage = FormAutomization.GetSelectedRadioButton(gbLanguage).Text;
-
-
-                Settings.SaveSettings(new Dictionary<SettingsOptions, string> {
-                                                                                { SettingsOptions.Gender, selectedGender },
-                                                                                { SettingsOptions.Language, selectedLanguage }
-                });
+                
+                Settings.SaveGenderSetting(selectedGender);
+                Settings.SaveLanguageSettings(selectedLanguage);
 
                 Application.Restart();
             }
@@ -45,8 +43,8 @@ namespace WorldCup
             FormAutomization.CreateRadioButtonsFromSettingsOptionEnum<Gender>(gbGender);
             FormAutomization.CreateRadioButtonsFromSettingsOptionEnum<Language>(gbLanguage);
 
-            FormAutomization.SetDefaultRadioButtonForGroupBox(gbGender, SettingsOptions.Gender);
-            FormAutomization.SetDefaultRadioButtonForGroupBox(gbLanguage, SettingsOptions.Language);
+            FormAutomization.SetDefaultRadioButtonForGroupBox(gbGender, Settings.LoadGenderDescriptionSetting());
+            FormAutomization.SetDefaultRadioButtonForGroupBox(gbLanguage, Settings.LoadLanguageDescriptionSetting());
         }
 
         private void btnExit_Click(object sender, EventArgs e)

@@ -87,6 +87,7 @@
             Controls.Add(btnApply);
             Controls.Add(gbGender);
             Controls.Add(gbLanguage);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Margin = new Padding(4, 5, 4, 5);
             Name = "SettingsForm";
             Text = "Settings";

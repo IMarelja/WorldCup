@@ -16,5 +16,8 @@ namespace WCRepo.Models
         public string fifa_code { get; set; }
         public int group_id { get; set; }
         public string group_letter { get; set; }
+
+        public override string ToString()
+        => $"{country}";
     }
 }

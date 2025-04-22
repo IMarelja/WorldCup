@@ -8,12 +8,16 @@ namespace WCRepo.Models
 {
     public class Player
     {
+        // All players can be retrieved from the data on the first played match as a union of the "starting_eleven" and "substitutes" sets.
+         
+        /*json*/
+        public string name { get; set; }
+        public bool captain { get; set; }
+        public int shirt_number { get; set; }
+        public string position { get; set; }
 
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public bool Captain { get; set; }
-        public int ShirtNumber { get; set; }
-        public string Position { get; set; }
-        public bool Favorite { get; set; }
+        /*memory*/
+        public int id { get; set; }
+        public bool favorite { get; set; }
     }
 }

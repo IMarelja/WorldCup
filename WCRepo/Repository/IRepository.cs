@@ -12,7 +12,7 @@ namespace WCRepo.Repository
 {
     public interface IRepository
     {
-        Player GetPlayer(int TeamID, Gender group);
+        Player GetPlayer(int PlayerID, int TeamID, Gender group);
         ISet<Player> GetPlayers(int TeamID, Gender group);
         Team GetTeam(int TeamID, Gender group);
         ISet<Team> GetTeams(Gender group);

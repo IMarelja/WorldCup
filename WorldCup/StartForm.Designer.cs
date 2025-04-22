@@ -77,6 +77,7 @@
             Controls.Add(gbGender);
             Controls.Add(gbLanguage);
             Controls.Add(btnApply);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Margin = new Padding(4, 5, 4, 5);
             Name = "StartForm";
             Text = "Start settings";
