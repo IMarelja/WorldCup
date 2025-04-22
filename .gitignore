@@ -1,0 +1,5 @@
+WorldCup/Settings/*
+!WorldCup/Settings/.gitkeep
+!WorldCup/Settings/Pictures/
+WorldCup/Settings/Picture/*
+!WorldCup/Settings/Pictures/.gitkeep
