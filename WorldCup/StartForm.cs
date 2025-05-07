@@ -22,9 +22,10 @@ namespace WorldCup
 
         private void StartForm_Load(object sender, EventArgs e)
         {
-            
+            FormAutomization.ApplyLanguage(this, Settings.LoadLanguageTagSetting());
             FormAutomization.CreateRadioButtonsFromSettingsOptionEnum<Gender>(gbGender);
-            FormAutomization.CreateRadioButtonsFromSettingsOptionEnum<Language>(gbLanguage);
+            FormAutomization.CreateRadioButtonsFromSettingsOptionEnumLanguage(gbLanguage);
+            File.Delete(Settings.settingsFilePath);
         }
 
         private void btnApply_Click(object sender, EventArgs e)

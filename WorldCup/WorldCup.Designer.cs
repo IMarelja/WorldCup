@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             cbFavoriteTeam = new ComboBox();
-            tbWorldCup = new TabControl();
+            tbcWorldCup = new TabControl();
             tabPlayers = new TabPage();
             lbPlayers = new Label();
             lbFavoritePlayers = new Label();
@@ -37,17 +37,17 @@
             pnlFavoritePlayer = new Panel();
             tabRanking = new TabPage();
             panel1 = new Panel();
-            tabControl2 = new TabControl();
-            tabPage1 = new TabPage();
-            tabPage2 = new TabPage();
-            label2 = new Label();
+            tcbPlayerRanking = new TabControl();
+            tabGoalScore = new TabPage();
+            tabYellowCards = new TabPage();
+            lbPlayerRanking = new Label();
             lbMatchRanking = new Label();
             btnSettings = new Button();
             lbFavoriteTeam = new Label();
-            tbWorldCup.SuspendLayout();
+            tbcWorldCup.SuspendLayout();
             tabPlayers.SuspendLayout();
             tabRanking.SuspendLayout();
-            tabControl2.SuspendLayout();
+            tcbPlayerRanking.SuspendLayout();
             SuspendLayout();
             // 
             // cbFavoriteTeam
@@ -58,19 +58,18 @@
             cbFavoriteTeam.Name = "cbFavoriteTeam";
             cbFavoriteTeam.Size = new Size(263, 33);
             cbFavoriteTeam.TabIndex = 0;
-            //cbFavoriteTeam.SelectedIndexChanged += cbFavoriteTeam_SelectedIndexChanged;
             cbFavoriteTeam.SelectionChangeCommitted += cbFavoriteTeam_SelectedIndexChanged;
             // 
-            // tbWorldCup
+            // tbcWorldCup
             // 
-            tbWorldCup.Controls.Add(tabPlayers);
-            tbWorldCup.Controls.Add(tabRanking);
-            tbWorldCup.Location = new Point(17, 68);
-            tbWorldCup.Margin = new Padding(4, 5, 4, 5);
-            tbWorldCup.Name = "tbWorldCup";
-            tbWorldCup.SelectedIndex = 0;
-            tbWorldCup.Size = new Size(1109, 662);
-            tbWorldCup.TabIndex = 1;
+            tbcWorldCup.Controls.Add(tabPlayers);
+            tbcWorldCup.Controls.Add(tabRanking);
+            tbcWorldCup.Location = new Point(17, 68);
+            tbcWorldCup.Margin = new Padding(4, 5, 4, 5);
+            tbcWorldCup.Name = "tbcWorldCup";
+            tbcWorldCup.SelectedIndex = 0;
+            tbcWorldCup.Size = new Size(1109, 662);
+            tbcWorldCup.TabIndex = 1;
             // 
             // tabPlayers
             // 
@@ -128,8 +127,8 @@
             // tabRanking
             // 
             tabRanking.Controls.Add(panel1);
-            tabRanking.Controls.Add(tabControl2);
-            tabRanking.Controls.Add(label2);
+            tabRanking.Controls.Add(tcbPlayerRanking);
+            tabRanking.Controls.Add(lbPlayerRanking);
             tabRanking.Controls.Add(lbMatchRanking);
             tabRanking.Location = new Point(4, 34);
             tabRanking.Margin = new Padding(4, 5, 4, 5);
@@ -148,48 +147,48 @@
             panel1.Size = new Size(499, 537);
             panel1.TabIndex = 3;
             // 
-            // tabControl2
+            // tcbPlayerRanking
             // 
-            tabControl2.Controls.Add(tabPage1);
-            tabControl2.Controls.Add(tabPage2);
-            tabControl2.Location = new Point(546, 62);
-            tabControl2.Margin = new Padding(4, 5, 4, 5);
-            tabControl2.Name = "tabControl2";
-            tabControl2.SelectedIndex = 0;
-            tabControl2.Size = new Size(543, 543);
-            tabControl2.TabIndex = 2;
+            tcbPlayerRanking.Controls.Add(tabGoalScore);
+            tcbPlayerRanking.Controls.Add(tabYellowCards);
+            tcbPlayerRanking.Location = new Point(546, 62);
+            tcbPlayerRanking.Margin = new Padding(4, 5, 4, 5);
+            tcbPlayerRanking.Name = "tcbPlayerRanking";
+            tcbPlayerRanking.SelectedIndex = 0;
+            tcbPlayerRanking.Size = new Size(543, 543);
+            tcbPlayerRanking.TabIndex = 2;
             // 
-            // tabPage1
+            // tabGoalScore
             // 
-            tabPage1.Location = new Point(4, 34);
-            tabPage1.Margin = new Padding(4, 5, 4, 5);
-            tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(4, 5, 4, 5);
-            tabPage1.Size = new Size(535, 505);
-            tabPage1.TabIndex = 0;
-            tabPage1.Text = "tabPage1";
-            tabPage1.UseVisualStyleBackColor = true;
+            tabGoalScore.Location = new Point(4, 34);
+            tabGoalScore.Margin = new Padding(4, 5, 4, 5);
+            tabGoalScore.Name = "tabGoalScore";
+            tabGoalScore.Padding = new Padding(4, 5, 4, 5);
+            tabGoalScore.Size = new Size(535, 505);
+            tabGoalScore.TabIndex = 0;
+            tabGoalScore.Text = "Goal scored";
+            tabGoalScore.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
+            // tabYellowCards
             // 
-            tabPage2.Location = new Point(4, 34);
-            tabPage2.Margin = new Padding(4, 5, 4, 5);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(4, 5, 4, 5);
-            tabPage2.Size = new Size(535, 505);
-            tabPage2.TabIndex = 1;
-            tabPage2.Text = "tabPage2";
-            tabPage2.UseVisualStyleBackColor = true;
+            tabYellowCards.Location = new Point(4, 34);
+            tabYellowCards.Margin = new Padding(4, 5, 4, 5);
+            tabYellowCards.Name = "tabYellowCards";
+            tabYellowCards.Padding = new Padding(4, 5, 4, 5);
+            tabYellowCards.Size = new Size(535, 505);
+            tabYellowCards.TabIndex = 1;
+            tabYellowCards.Text = "Yellow cards";
+            tabYellowCards.UseVisualStyleBackColor = true;
             // 
-            // label2
+            // lbPlayerRanking
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(546, 32);
-            label2.Margin = new Padding(4, 0, 4, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(128, 25);
-            label2.TabIndex = 1;
-            label2.Text = "Player Ranking";
+            lbPlayerRanking.AutoSize = true;
+            lbPlayerRanking.Location = new Point(546, 32);
+            lbPlayerRanking.Margin = new Padding(4, 0, 4, 0);
+            lbPlayerRanking.Name = "lbPlayerRanking";
+            lbPlayerRanking.Size = new Size(128, 25);
+            lbPlayerRanking.TabIndex = 1;
+            lbPlayerRanking.Text = "Player Ranking";
             // 
             // lbMatchRanking
             // 
@@ -229,19 +228,19 @@
             ClientSize = new Size(1143, 750);
             Controls.Add(lbFavoriteTeam);
             Controls.Add(btnSettings);
-            Controls.Add(tbWorldCup);
+            Controls.Add(tbcWorldCup);
             Controls.Add(cbFavoriteTeam);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Margin = new Padding(4, 5, 4, 5);
             Name = "WorldCup";
             Text = "WorldCup";
             Load += WorldCup_Load;
-            tbWorldCup.ResumeLayout(false);
+            tbcWorldCup.ResumeLayout(false);
             tabPlayers.ResumeLayout(false);
             tabPlayers.PerformLayout();
             tabRanking.ResumeLayout(false);
             tabRanking.PerformLayout();
-            tabControl2.ResumeLayout(false);
+            tcbPlayerRanking.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -249,7 +248,7 @@
         #endregion
 
         private ComboBox cbFavoriteTeam;
-        private TabControl tbWorldCup;
+        private TabControl tbcWorldCup;
         private TabPage tabPlayers;
         private Button btnSettings;
         private Label lbFavoritePlayers;
@@ -257,11 +256,11 @@
         private Panel pnlFavoritePlayer;
         private Label lbPlayers;
         private TabPage tabRanking;
-        private Label label2;
+        private Label lbPlayerRanking;
         private Label lbMatchRanking;
-        private TabControl tabControl2;
-        private TabPage tabPage1;
-        private TabPage tabPage2;
+        private TabControl tcbPlayerRanking;
+        private TabPage tabGoalScore;
+        private TabPage tabYellowCards;
         private Panel panel1;
         private Label lbFavoriteTeam;
     }

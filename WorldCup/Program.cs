@@ -14,10 +14,11 @@ namespace WorldCup
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
-            Settings.Correction();
 
+            //Settings.Correction();
             
-            if (!SettingsValidation())
+            
+            if (SettingsValidation())
             {
                 Application.Run(new StartForm());
             }
@@ -35,8 +36,13 @@ namespace WorldCup
             try
             {
                 string settingsFile = Path.Combine(HomePath.Value(), @"Settings\settings.xml");
-
-                return File.Exists(Settings.settingsFilePath);
+                if (!File.Exists(settingsFile))
+                {
+                    File.Delete(settingsFile);
+                    return true;
+                }
+                return false;
+                 
             }
             catch (Exception ex)
             {

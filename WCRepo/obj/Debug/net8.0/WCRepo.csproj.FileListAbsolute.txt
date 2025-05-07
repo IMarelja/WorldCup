@@ -1,0 +1,13 @@
+C:\Users\windsten\source\repos\WorldCupProject\WCRepo\bin\Debug\net8.0\WCRepo.deps.json
+C:\Users\windsten\source\repos\WorldCupProject\WCRepo\bin\Debug\net8.0\WCRepo.dll
+C:\Users\windsten\source\repos\WorldCupProject\WCRepo\bin\Debug\net8.0\WCRepo.pdb
+C:\Users\windsten\source\repos\WorldCupProject\WCRepo\obj\Debug\net8.0\WCRepo.csproj.AssemblyReference.cache
+C:\Users\windsten\source\repos\WorldCupProject\WCRepo\obj\Debug\net8.0\WCRepo.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\windsten\source\repos\WorldCupProject\WCRepo\obj\Debug\net8.0\WCRepo.AssemblyInfoInputs.cache
+C:\Users\windsten\source\repos\WorldCupProject\WCRepo\obj\Debug\net8.0\WCRepo.AssemblyInfo.cs
+C:\Users\windsten\source\repos\WorldCupProject\WCRepo\obj\Debug\net8.0\WCRepo.csproj.CoreCompileInputs.cache
+C:\Users\windsten\source\repos\WorldCupProject\WCRepo\obj\Debug\net8.0\WCRepo.sourcelink.json
+C:\Users\windsten\source\repos\WorldCupProject\WCRepo\obj\Debug\net8.0\WCRepo.dll
+C:\Users\windsten\source\repos\WorldCupProject\WCRepo\obj\Debug\net8.0\refint\WCRepo.dll
+C:\Users\windsten\source\repos\WorldCupProject\WCRepo\obj\Debug\net8.0\WCRepo.pdb
+C:\Users\windsten\source\repos\WorldCupProject\WCRepo\obj\Debug\net8.0\ref\WCRepo.dll

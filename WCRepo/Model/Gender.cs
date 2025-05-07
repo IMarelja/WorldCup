@@ -9,6 +9,8 @@ namespace WCRepo.Model
 {
     public enum Gender
     {
+        //Remove descriptions
+
         [Description("Male")]
         men,
 

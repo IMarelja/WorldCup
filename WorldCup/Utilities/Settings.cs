@@ -8,6 +8,8 @@ using System.Xml.Linq;
 using System.Xml;
 using WCRepo.Model;
 using WCRepo.Models;
+using System.Globalization;
+using System.Resources;
 
 namespace WorldCup.Utilities
 {
@@ -23,11 +25,13 @@ namespace WorldCup.Utilities
     
     public enum Language
     {
-        [Description("EN-US")]
-        EnUs,
+        //Remove descriptions
 
-        [Description("HR")]
-        Hr
+        [Description("English")]
+        en,
+
+        [Description("Hrvatski")]
+        hr
     }
     public class Settings
     {
@@ -193,17 +197,17 @@ namespace WorldCup.Utilities
             {
                 XDocument doc = XDocument.Load(settingsFilePath);
                 var langText = doc.Root.Element("Language")?.Value;
-                return Enum.TryParse(langText, out Language lang) ? lang : Language.EnUs;
+                return Enum.TryParse(langText, out Language lang) ? lang : Language.en;
             }
             catch (FileNotFoundException ex)
             {
                 MessageBox.Show(ex.Message);
-                return Language.EnUs;
+                return Language.en;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                return Language.EnUs;
+                return Language.en;
             }
         }
 
@@ -302,6 +306,8 @@ namespace WorldCup.Utilities
                 
             }
         }
+
+        // Test
         private static T GetEnumValueFromDescription<T>(string description) where T : Enum
         {
             foreach (var field in typeof(T).GetFields())
@@ -328,6 +334,7 @@ namespace WorldCup.Utilities
 
         }
 
+        
 
     }
 }

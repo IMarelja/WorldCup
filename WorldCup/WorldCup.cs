@@ -30,7 +30,7 @@ namespace WorldCup
 
         private void WorldCup_Load(object sender, EventArgs e)
         {
-            //ApplyLanguage(Settings.LoadSetting(SettingsOptions.Language));
+            FormAutomization.ApplyLanguage(this,Settings.LoadLanguageTagSetting());
             LoadCountriesIntoComboBox();
             LoadPlayersIntoPanel();
         }

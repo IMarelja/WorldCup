@@ -21,30 +21,34 @@ namespace WorldCup
             InitializeComponent();
         }
 
+
+        private void SettingsForm_Load(object sender, EventArgs e)
+        {
+            FormAutomization.ApplyLanguage(this, Settings.LoadLanguageTagSetting());
+
+            FormAutomization.CreateRadioButtonsFromSettingsOptionEnum<Gender>(gbGender);
+            FormAutomization.CreateRadioButtonsFromSettingsOptionEnumLanguage(gbLanguage);
+
+            FormAutomization.SetDefaultRadioButtonForGroupBox(gbGender, Settings.LoadGenderDescriptionSetting());
+            FormAutomization.SetDefaultRadioButtonForGroupBox(gbLanguage, Settings.LoadLanguageDescriptionSetting());
+
+            
+        }
+
         private void btnApply_Click(object sender, EventArgs e)
         {
             var result = MessageBox.Show("Do you want to save current choice? If yes the application will restart", "Alert", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (result == DialogResult.Yes)
             {
-                string selectedGender = FormAutomization.GetSelectedRadioButton(gbGender).Text;
-                string selectedLanguage = FormAutomization.GetSelectedRadioButton(gbLanguage).Text;
-                
+                Gender selectedGender = (Gender)FormAutomization.GetSelectedRadioButton(gbGender).Tag;
+                String selectedLanguage = FormAutomization.GetSelectedRadioButton(gbLanguage).Text;
+
                 Settings.SaveGenderSetting(selectedGender);
                 Settings.SaveLanguageSettings(selectedLanguage);
 
                 Application.Restart();
             }
-        }
-
-        private void SettingsForm_Load(object sender, EventArgs e)
-        {
-
-            FormAutomization.CreateRadioButtonsFromSettingsOptionEnum<Gender>(gbGender);
-            FormAutomization.CreateRadioButtonsFromSettingsOptionEnum<Language>(gbLanguage);
-
-            FormAutomization.SetDefaultRadioButtonForGroupBox(gbGender, Settings.LoadGenderDescriptionSetting());
-            FormAutomization.SetDefaultRadioButtonForGroupBox(gbLanguage, Settings.LoadLanguageDescriptionSetting());
         }
 
         private void btnExit_Click(object sender, EventArgs e)
