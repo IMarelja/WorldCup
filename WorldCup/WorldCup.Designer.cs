@@ -1,4 +1,6 @@
-﻿namespace WorldCup
+﻿using System.Windows.Forms;
+
+namespace WorldCup
 {
     partial class WorldCup
     {
@@ -31,15 +33,17 @@
             cbFavoriteTeam = new ComboBox();
             tbcWorldCup = new TabControl();
             tabPlayers = new TabPage();
+            flpPlayers = new FlowLayoutPanel();
+            flpFavoritePlayers = new FlowLayoutPanel();
             lbPlayers = new Label();
             lbFavoritePlayers = new Label();
-            pnlPlayers = new Panel();
-            pnlFavoritePlayer = new Panel();
             tabRanking = new TabPage();
-            panel1 = new Panel();
+            flpVisitorsMatchRanking = new FlowLayoutPanel();
             tcbPlayerRanking = new TabControl();
             tabGoalScore = new TabPage();
+            flpGoalScored = new FlowLayoutPanel();
             tabYellowCards = new TabPage();
+            flpYellowCards = new FlowLayoutPanel();
             lbPlayerRanking = new Label();
             lbMatchRanking = new Label();
             btnSettings = new Button();
@@ -48,6 +52,8 @@
             tabPlayers.SuspendLayout();
             tabRanking.SuspendLayout();
             tcbPlayerRanking.SuspendLayout();
+            tabGoalScore.SuspendLayout();
+            tabYellowCards.SuspendLayout();
             SuspendLayout();
             // 
             // cbFavoriteTeam
@@ -73,10 +79,10 @@
             // 
             // tabPlayers
             // 
+            tabPlayers.Controls.Add(flpPlayers);
+            tabPlayers.Controls.Add(flpFavoritePlayers);
             tabPlayers.Controls.Add(lbPlayers);
             tabPlayers.Controls.Add(lbFavoritePlayers);
-            tabPlayers.Controls.Add(pnlPlayers);
-            tabPlayers.Controls.Add(pnlFavoritePlayer);
             tabPlayers.Location = new Point(4, 34);
             tabPlayers.Margin = new Padding(4, 5, 4, 5);
             tabPlayers.Name = "tabPlayers";
@@ -85,6 +91,30 @@
             tabPlayers.TabIndex = 0;
             tabPlayers.Text = "Players";
             tabPlayers.UseVisualStyleBackColor = true;
+            // 
+            // flpPlayers
+            // 
+            flpPlayers.AllowDrop = true;
+            flpPlayers.AutoScroll = true;
+            flpPlayers.BackColor = Color.Silver;
+            flpPlayers.Location = new Point(576, 62);
+            flpPlayers.Name = "flpPlayers";
+            flpPlayers.Size = new Size(500, 558);
+            flpPlayers.TabIndex = 5;
+            flpPlayers.DragDrop += FlpPlayers_DragDrop;
+            flpPlayers.DragEnter += FlpPlayers_DragEnter;
+            // 
+            // flpFavoritePlayers
+            // 
+            flpFavoritePlayers.AllowDrop = true;
+            flpFavoritePlayers.AutoScroll = true;
+            flpFavoritePlayers.BackColor = Color.Silver;
+            flpFavoritePlayers.Location = new Point(14, 62);
+            flpFavoritePlayers.Name = "flpFavoritePlayers";
+            flpFavoritePlayers.Size = new Size(517, 553);
+            flpFavoritePlayers.TabIndex = 4;
+            flpFavoritePlayers.DragDrop += FlpFavoritePlayers_DragDrop;
+            flpFavoritePlayers.DragEnter += FlpFavoritePlayers_DragEnter;
             // 
             // lbPlayers
             // 
@@ -106,27 +136,9 @@
             lbFavoritePlayers.TabIndex = 2;
             lbFavoritePlayers.Text = "Favorite players";
             // 
-            // pnlPlayers
-            // 
-            pnlPlayers.BorderStyle = BorderStyle.FixedSingle;
-            pnlPlayers.Location = new Point(576, 57);
-            pnlPlayers.Margin = new Padding(4, 5, 4, 5);
-            pnlPlayers.Name = "pnlPlayers";
-            pnlPlayers.Size = new Size(512, 547);
-            pnlPlayers.TabIndex = 1;
-            // 
-            // pnlFavoritePlayer
-            // 
-            pnlFavoritePlayer.BorderStyle = BorderStyle.FixedSingle;
-            pnlFavoritePlayer.Location = new Point(9, 57);
-            pnlFavoritePlayer.Margin = new Padding(4, 5, 4, 5);
-            pnlFavoritePlayer.Name = "pnlFavoritePlayer";
-            pnlFavoritePlayer.Size = new Size(525, 547);
-            pnlFavoritePlayer.TabIndex = 0;
-            // 
             // tabRanking
             // 
-            tabRanking.Controls.Add(panel1);
+            tabRanking.Controls.Add(flpVisitorsMatchRanking);
             tabRanking.Controls.Add(tcbPlayerRanking);
             tabRanking.Controls.Add(lbPlayerRanking);
             tabRanking.Controls.Add(lbMatchRanking);
@@ -139,13 +151,13 @@
             tabRanking.Text = "Ranking";
             tabRanking.UseVisualStyleBackColor = true;
             // 
-            // panel1
+            // flpVisitorsMatchRanking
             // 
-            panel1.Location = new Point(9, 62);
-            panel1.Margin = new Padding(4, 5, 4, 5);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(499, 537);
-            panel1.TabIndex = 3;
+            flpVisitorsMatchRanking.BackColor = Color.Silver;
+            flpVisitorsMatchRanking.Location = new Point(11, 65);
+            flpVisitorsMatchRanking.Name = "flpVisitorsMatchRanking";
+            flpVisitorsMatchRanking.Size = new Size(513, 537);
+            flpVisitorsMatchRanking.TabIndex = 3;
             // 
             // tcbPlayerRanking
             // 
@@ -160,6 +172,7 @@
             // 
             // tabGoalScore
             // 
+            tabGoalScore.Controls.Add(flpGoalScored);
             tabGoalScore.Location = new Point(4, 34);
             tabGoalScore.Margin = new Padding(4, 5, 4, 5);
             tabGoalScore.Name = "tabGoalScore";
@@ -169,8 +182,17 @@
             tabGoalScore.Text = "Goal scored";
             tabGoalScore.UseVisualStyleBackColor = true;
             // 
+            // flpGoalScored
+            // 
+            flpGoalScored.BackColor = Color.Silver;
+            flpGoalScored.Location = new Point(4, 3);
+            flpGoalScored.Name = "flpGoalScored";
+            flpGoalScored.Size = new Size(530, 500);
+            flpGoalScored.TabIndex = 0;
+            // 
             // tabYellowCards
             // 
+            tabYellowCards.Controls.Add(flpYellowCards);
             tabYellowCards.Location = new Point(4, 34);
             tabYellowCards.Margin = new Padding(4, 5, 4, 5);
             tabYellowCards.Name = "tabYellowCards";
@@ -179,6 +201,14 @@
             tabYellowCards.TabIndex = 1;
             tabYellowCards.Text = "Yellow cards";
             tabYellowCards.UseVisualStyleBackColor = true;
+            // 
+            // flpYellowCards
+            // 
+            flpYellowCards.BackColor = Color.Silver;
+            flpYellowCards.Location = new Point(4, 3);
+            flpYellowCards.Name = "flpYellowCards";
+            flpYellowCards.Size = new Size(529, 498);
+            flpYellowCards.TabIndex = 0;
             // 
             // lbPlayerRanking
             // 
@@ -241,6 +271,8 @@
             tabRanking.ResumeLayout(false);
             tabRanking.PerformLayout();
             tcbPlayerRanking.ResumeLayout(false);
+            tabGoalScore.ResumeLayout(false);
+            tabYellowCards.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -252,8 +284,6 @@
         private TabPage tabPlayers;
         private Button btnSettings;
         private Label lbFavoritePlayers;
-        private Panel pnlPlayers;
-        private Panel pnlFavoritePlayer;
         private Label lbPlayers;
         private TabPage tabRanking;
         private Label lbPlayerRanking;
@@ -261,7 +291,11 @@
         private TabControl tcbPlayerRanking;
         private TabPage tabGoalScore;
         private TabPage tabYellowCards;
-        private Panel panel1;
         private Label lbFavoriteTeam;
+        private FlowLayoutPanel flpPlayers;
+        private FlowLayoutPanel flpFavoritePlayers;
+        private FlowLayoutPanel flpVisitorsMatchRanking;
+        private FlowLayoutPanel flpGoalScored;
+        private FlowLayoutPanel flpYellowCards;
     }
 }

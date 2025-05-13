@@ -27,10 +27,10 @@ namespace WorldCup
             FormAutomization.ApplyLanguage(this, Settings.LoadLanguageTagSetting());
 
             FormAutomization.CreateRadioButtonsFromSettingsOptionEnum<Gender>(gbGender);
-            FormAutomization.CreateRadioButtonsFromSettingsOptionEnumLanguage(gbLanguage);
+            FormAutomization.CreateRadioButtonsFromSettingsOptionLanguageEnum(gbLanguage);
 
-            FormAutomization.SetDefaultRadioButtonForGroupBox(gbGender, Settings.LoadGenderDescriptionSetting());
-            FormAutomization.SetDefaultRadioButtonForGroupBox(gbLanguage, Settings.LoadLanguageDescriptionSetting());
+            FormAutomization.SetDefaultRadioButtonForGroupBox(gbGender, Settings.LoadGenderTagSetting().ToString());
+            FormAutomization.SetDefaultRadioButtonForLanguageGroupBox(gbLanguage, Settings.LoadLanguageDescriptionSetting());
 
             
         }

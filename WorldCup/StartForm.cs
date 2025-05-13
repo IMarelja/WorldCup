@@ -24,7 +24,7 @@ namespace WorldCup
         {
             FormAutomization.ApplyLanguage(this, Settings.LoadLanguageTagSetting());
             FormAutomization.CreateRadioButtonsFromSettingsOptionEnum<Gender>(gbGender);
-            FormAutomization.CreateRadioButtonsFromSettingsOptionEnumLanguage(gbLanguage);
+            FormAutomization.CreateRadioButtonsFromSettingsOptionLanguageEnum(gbLanguage);
             File.Delete(Settings.settingsFilePath);
         }
 

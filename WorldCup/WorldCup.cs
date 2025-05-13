@@ -23,6 +23,7 @@ namespace WorldCup
     {
         private static readonly IRepository repository = RepositoryFactory.GetRepository();
 
+
         public WorldCup()
         {
             InitializeComponent();
@@ -30,9 +31,10 @@ namespace WorldCup
 
         private void WorldCup_Load(object sender, EventArgs e)
         {
+            WallOfShame();
             FormAutomization.ApplyLanguage(this,Settings.LoadLanguageTagSetting());
             LoadCountriesIntoComboBox();
-            LoadPlayersIntoPanel();
+            LoadPlayersIntoFlowLayoutPanels();
         }
 
         private void btnSettings_Click(object sender, EventArgs e)
@@ -48,7 +50,7 @@ namespace WorldCup
                 {
                     Settings.SaveFavoriteTeamSetting(selectedTeam);
                     this.Text = $"WorldCup - {selectedTeam.country} ({selectedTeam.fifa_code})";
-                    LoadPlayersIntoPanel();
+                    LoadPlayersIntoFlowLayoutPanels();
                 }
             }
             catch(Exception ex)
@@ -89,17 +91,50 @@ namespace WorldCup
             
 
         }
-        private void LoadPlayersIntoPanel()
+        private void LoadPlayersIntoFlowLayoutPanels()
         {
+            flpFavoritePlayers.Controls.Clear();
+            flpPlayers.Controls.Clear();
 
             if (Settings.LoadFavoriteTeamSetting() != null)
             {
                 string MessagePlayer = "";
+
                 foreach (Player player in repository.GetPlayers(Settings.LoadFavoriteTeamSetting().id, Settings.LoadGenderTagSetting()))
                 {
-                    MessagePlayer += $"ID: {player.id}, Name: {player.name}, Position: {player.position}, Shirt number: {player.shirt_number}\n";
+                    PlayerInfo playerInfo = new PlayerInfo();
+
+                    if (Settings.IsFavoritePlayerSetting(player))
+                    {
+                        player.favorite = true;
+                    }
+                    else
+                    {
+                        player.favorite = false;
+                    }
+
+                    playerInfo.SetPlayerInfo(player);
+                    
+
+                    if (player.favorite == false) {
+                        
+                        flpPlayers.Controls.Add(playerInfo);
+
+                    }
+                    if (player.favorite == true)
+                    {
+
+                        flpFavoritePlayers.Controls.Add(playerInfo);
+
+                    }
+
+
+
+                    MessagePlayer += $"ID: {player.id}, Name: {player.name}, Position: {player.position}, Shirt number: {player.shirt_number}, Captain: {player.captain}\n";
                 }
-                MessageBox.Show(MessagePlayer);
+
+
+                //MessageBox.Show(MessagePlayer);
             }
         }
 
@@ -108,6 +143,126 @@ namespace WorldCup
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
 
 
+        }
+
+        private void FlpFavoritePlayers_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(PlayerInfo)))
+            {
+                e.Effect = DragDropEffects.Move;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void FlpFavoritePlayers_DragDrop(object sender, DragEventArgs e)
+        {
+            try {
+                var playerControl = e.Data.GetData(typeof(PlayerInfo)) as PlayerInfo;
+                if (playerControl != null)
+                {
+                    FlowLayoutPanel parentPanel = (FlowLayoutPanel)playerControl.Parent;
+                    FlowLayoutPanel currentPanel = (FlowLayoutPanel)sender;
+
+                    if (parentPanel == currentPanel) // self-drop check
+                        return;
+
+                    playerControl.BackColor = SystemColors.ButtonFace;
+                    playerControl.SetPlayerInfoFavoriteStatus(true);
+
+                    if (parentPanel != null)
+                    {
+                        // Add to new panel
+                        currentPanel.Controls.Add(playerControl);
+                        parentPanel.Controls.Remove(playerControl);
+                        Settings.SaveFavoritePlayerSetting(playerControl.Tag as Player);
+                    }
+
+                    List<PlayerInfo> selectedControls = parentPanel.Controls
+                    .OfType<PlayerInfo>()
+                    .Where(p => p.selectStatusPlayerInfo && p != playerControl)
+                    .ToList();
+
+                    foreach (var selected in selectedControls)
+                    {
+                        selected.BackColor = SystemColors.ButtonFace;
+                        selected.SetPlayerInfoFavoriteStatus(true);
+                        currentPanel.Controls.Add(selected);
+                        parentPanel.Controls.Remove(selected);
+                        Settings.SaveFavoritePlayerSetting(selected.Tag as Player);
+                    }
+
+                }
+            } catch (Exception ex) {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void FlpPlayers_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(PlayerInfo)))
+            {
+                e.Effect = DragDropEffects.Move;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void FlpPlayers_DragDrop(object sender, DragEventArgs e)
+        {
+            try
+            {
+                var playerControl = e.Data.GetData(typeof(PlayerInfo)) as PlayerInfo;
+                if (playerControl != null)
+                {
+                    FlowLayoutPanel parentPanel = (FlowLayoutPanel)playerControl.Parent;
+                    FlowLayoutPanel currentPanel = (FlowLayoutPanel)sender;
+
+                    if (parentPanel == currentPanel) // self-drop check
+                        return;
+
+                    playerControl.BackColor = SystemColors.ButtonFace;
+                    playerControl.SetPlayerInfoFavoriteStatus(false);
+
+                    if (parentPanel != null)
+                    {
+                        // Add to new panel
+                        currentPanel.Controls.Add(playerControl);
+                        parentPanel.Controls.Remove(playerControl);
+                        Settings.RemoveFavoritePlayerSettingByPlayer(playerControl.Tag as Player);
+                    }
+
+                    List<PlayerInfo> selectedControls = parentPanel.Controls
+                    .OfType<PlayerInfo>()
+                    .Where(p => p.selectStatusPlayerInfo && p != playerControl)
+                    .ToList();
+
+                    foreach (var selected in selectedControls)
+                    {
+                        selected.BackColor = SystemColors.ButtonFace;
+                        selected.SetPlayerInfoFavoriteStatus(false);
+                        currentPanel.Controls.Add(selected);
+                        parentPanel.Controls.Remove(selected);
+                        Settings.RemoveFavoritePlayerSettingByPlayer(selected.Tag as Player);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void WallOfShame()
+        {
+            lbPlayerRanking.Enabled = false;
+            lbPlayerRanking.Visible = false;
+            tcbPlayerRanking.Enabled = false;
+            tcbPlayerRanking.Visible = false ;
         }
     }
 }

@@ -19,5 +19,6 @@ namespace WCRepo.Models
         /*memory*/
         public int id { get; set; }
         public bool favorite { get; set; }
+        public string picturePath { get; set; }
     }
 }

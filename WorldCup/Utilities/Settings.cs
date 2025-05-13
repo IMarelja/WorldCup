@@ -25,7 +25,6 @@ namespace WorldCup.Utilities
     
     public enum Language
     {
-        //Remove descriptions
 
         [Description("English")]
         en,
@@ -278,24 +277,190 @@ namespace WorldCup.Utilities
                 return null;
             }
         }
-        /*
-        public static void SaveFavoritePlayerSetting()
+        
+        public static void SaveFavoritePlayerSetting(Player player)
         {
             SettingsFileCheckingAndCorruption();
             try
             {
+                XDocument doc = XDocument.Load(settingsFilePath);
+                string gender = LoadGenderTagSetting().ToString();
+                string team = LoadFavoriteTeamSetting()?.country;
 
-            }
-            catch (FileNotFoundException ex)
-            {
-                MessageBox.Show(ex.Message);
+                if (string.IsNullOrEmpty(team) || string.IsNullOrEmpty(gender))
+                {
+                    MessageBox.Show("Favorite team or gender is not set.");
+                    return;
+                }
+
+                // Find existing FavoritePlayer node
+                XElement existingTeamNode = doc.Root.Elements("FavoritePlayer")
+                    .FirstOrDefault(fp =>
+                        (string)fp.Attribute("team") == team &&
+                        (string)fp.Attribute("gender") == gender);
+
+                if (existingTeamNode == null)
+                {
+                    // Create new FavoritePlayer node
+                    existingTeamNode = new XElement("FavoritePlayer",
+                        new XAttribute("team", team),
+                        new XAttribute("gender", gender));
+
+                    doc.Root.Add(existingTeamNode);
+                }
+
+                // Create new Player element
+                XElement newPlayer = new XElement("Player",
+                    new XAttribute("captain", player.captain.ToString().ToLower()),
+                    new XAttribute("shirt_number", player.shirt_number),
+                    new XAttribute("position", player.position),
+                    player.name);
+
+                existingTeamNode.Add(newPlayer);
+                doc.Save(settingsFilePath);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
-        */
+
+        public static Player LoadFavoritePlayerSettingByPlayer(Player player)
+        {
+            SettingsFileCheckingAndCorruption();
+            try
+            {
+                var doc = XDocument.Load(settingsFilePath);
+                var gender = LoadGenderTagSetting().ToString();
+                var team = LoadFavoriteTeamSetting()?.country;
+
+                var playerElement = doc.Descendants("FavoritePlayer")
+                    .FirstOrDefault(fp =>
+                        (string)fp.Attribute("team") == team &&
+                        (string)fp.Attribute("gender") == gender)?
+                    .Elements("Player")
+                    .FirstOrDefault(p =>
+                        (string)p.Value == player.name &&
+                        (int)p.Attribute("shirt_number") == player.shirt_number);
+
+                if (playerElement == null) return null;
+
+                return new Player
+                {
+                    name = playerElement.Value,
+                    captain = bool.Parse(playerElement.Attribute("captain")?.Value ?? "false"),
+                    shirt_number = int.Parse(playerElement.Attribute("shirt_number")?.Value ?? "0"),
+                    position = playerElement.Attribute("position")?.Value
+                };
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return null;
+            }
+        }
+
+
+        public static List<Player> LoadFavoritePlayersSetting()
+        {
+            SettingsFileCheckingAndCorruption();
+            try
+            {
+                var doc = XDocument.Load(settingsFilePath);
+                var gender = LoadGenderTagSetting().ToString();
+                var team = LoadFavoriteTeamSetting()?.country;
+
+                var players = doc.Descendants("FavoritePlayer")
+                    .FirstOrDefault(fp =>
+                        (string)fp.Attribute("team") == team &&
+                        (string)fp.Attribute("gender") == gender)?
+                    .Elements("Player")
+                    .Select(p => new Player
+                    {
+                        name = p.Value,
+                        captain = bool.Parse(p.Attribute("captain")?.Value ?? "false"),
+                        shirt_number = int.Parse(p.Attribute("shirt_number")?.Value ?? "0"),
+                        position = p.Attribute("position")?.Value
+                    }).ToList();
+
+                return players ?? new List<Player>();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return new List<Player>();
+            }
+        }
+
+        public static void RemoveFavoritePlayerSettingByPlayer(Player player)
+        {
+            SettingsFileCheckingAndCorruption();
+            try
+            {
+                var doc = XDocument.Load(settingsFilePath);
+                var gender = LoadGenderTagSetting().ToString();
+                var team = LoadFavoriteTeamSetting()?.country;
+
+                var favoritePlayerElement = doc.Descendants("FavoritePlayer")
+                    .FirstOrDefault(fp =>
+                        (string)fp.Attribute("team") == team &&
+                        (string)fp.Attribute("gender") == gender);
+
+                if (favoritePlayerElement == null)
+                    return;
+
+                var playerElement = favoritePlayerElement.Elements("Player")
+                    .FirstOrDefault(p =>
+                        (string)p.Value == player.name &&
+                        (int)p.Attribute("shirt_number") == player.shirt_number);
+
+                if (playerElement != null)
+                {
+                    playerElement.Remove();
+                    doc.Save(settingsFilePath);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        public static bool IsFavoritePlayerSetting(Player player)
+        {
+            SettingsFileCheckingAndCorruption();
+            try
+            {
+                var doc = XDocument.Load(settingsFilePath);
+                var gender = LoadGenderTagSetting().ToString();
+                var team = LoadFavoriteTeamSetting()?.country;
+
+                if (string.IsNullOrEmpty(team) || string.IsNullOrEmpty(gender))
+                    return false;
+
+                var favoritePlayerElement = doc.Descendants("FavoritePlayer")
+                    .FirstOrDefault(fp =>
+                        (string)fp.Attribute("team") == team &&
+                        (string)fp.Attribute("gender") == gender);
+
+                if (favoritePlayerElement == null)
+                    return false;
+
+                var playerElement = favoritePlayerElement.Elements("Player")
+                    .FirstOrDefault(p =>
+                        (string)p.Value == player.name &&
+                        (int)p.Attribute("shirt_number") == player.shirt_number);
+
+                return playerElement != null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return false;
+            }
+        }
+
+
         private static void SettingsFileCheckingAndCorruption()
         {
             if (!File.Exists(settingsFilePath))

@@ -6,6 +6,8 @@ using System.Linq;
 using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using WCRepo.Model;
 
 namespace WorldCup.Utilities
 {
@@ -104,12 +106,13 @@ namespace WorldCup.Utilities
             }*/
         }
 
-        public static void SetDefaultRadioButtonForGroupBox(GroupBox groupBox, String LoadedSetting)
+        public static void SetDefaultRadioButtonForGroupBox(GroupBox groupBox, String LoadedSettingFromTag)
         {
 
             foreach (RadioButton rb in groupBox.Controls.OfType<RadioButton>())
             {
-                if (rb.Text == LoadedSetting)
+
+                if (rb.Tag.ToString() == LoadedSettingFromTag)
                 {
                     rb.Checked = true;
                     break;
@@ -117,7 +120,7 @@ namespace WorldCup.Utilities
             }
         }
 
-        public static void CreateRadioButtonsFromSettingsOptionEnumLanguage(GroupBox groupBox)
+        public static void CreateRadioButtonsFromSettingsOptionLanguageEnum(GroupBox groupBox)
         {
 
 
@@ -160,7 +163,7 @@ namespace WorldCup.Utilities
             }
         }
 
-        public static void SetDefaultRadioButtonForGroupBoxLanguage(GroupBox groupBox, String LoadedSetting)
+        public static void SetDefaultRadioButtonForLanguageGroupBox(GroupBox groupBox, String LoadedSetting)
         {
 
             foreach (RadioButton rb in groupBox.Controls.OfType<RadioButton>())
@@ -199,6 +202,21 @@ namespace WorldCup.Utilities
             }
 
             ApplyResourcesToControls(form, rm);
+        }
+
+        public static void ApplyLanguage(UserControl UC, Language cultureCode)
+        {
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(cultureCode.ToString());
+            ResourceManager rm = new ResourceManager("WorldCup.Textures.Languages.Lang", typeof(Program).Assembly);
+
+            // Apply resources to the form itself (the form might have a name/title too)
+            string formText = rm.GetString(UC.Name);
+            if (!string.IsNullOrEmpty(formText))
+            {
+                UC.Text = formText;
+            }
+
+            ApplyResourcesToControls(UC, rm);
         }
 
         private static void ApplyResourcesToControls(Control parent, ResourceManager rm)
