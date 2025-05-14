@@ -263,6 +263,10 @@ namespace WorldCup
             lbPlayerRanking.Visible = false;
             tcbPlayerRanking.Enabled = false;
             tcbPlayerRanking.Visible = false ;
+            flpVisitorsMatchRanking.Enabled = false;
+            flpVisitorsMatchRanking.Visible = false;
+            lbMatchRanking.Enabled = false;
+            lbMatchRanking.Visible = false;
         }
     }
 }

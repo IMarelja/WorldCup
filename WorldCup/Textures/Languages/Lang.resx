@@ -197,8 +197,4 @@
     <value>Women</value>
     <comment>enum - Gender</comment>
   </data>
-  <data name="WorldCup" xml:space="preserve">
-    <value>World Cup</value>
-    <comment>WorldCup</comment>
-  </data>
 </root>

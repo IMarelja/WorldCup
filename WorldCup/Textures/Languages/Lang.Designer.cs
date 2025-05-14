@@ -239,14 +239,5 @@ namespace WorldCup.Textures.Languages {
                 return ResourceManager.GetString("women", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to World Cup.
-        /// </summary>
-        internal static string WorldCup {
-            get {
-                return ResourceManager.GetString("WorldCup", resourceCulture);
-            }
-        }
     }
 }

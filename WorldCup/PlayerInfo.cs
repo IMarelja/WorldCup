@@ -30,32 +30,32 @@ namespace WorldCup
 
         private void btnSelectImage_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            // Set title for dialog
-            openFileDialog.Title = "Select Image";
-
-            // Filter for major image formats
-            openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.bmp|" +
-                                   "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
-                                   "PNG (*.png)|*.png|" +
-                                   "BMP (*.bmp)|*.bmp|" +
-                                   "All files (*.*)|*.*";
-
-            // Allow multiple file selection if needed
-            // openFileDialog.Multiselect = true;
-
-            // Show the dialog and check if user clicked OK
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            try
             {
-                // Do something with the selected file(s)
-                string selectedFile = openFileDialog.FileName;
+                OpenFileDialog openFileDialog = new OpenFileDialog();
 
-                // Example: Display the selected file path
-                MessageBox.Show($"Selected: {selectedFile}");
+                openFileDialog.Title = "Select Image";
 
-                // Example: Open the image in PictureBox
-                // pictureBox1.Image = Image.FromFile(selectedFile);
+                openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.bmp|" +
+                                       "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
+                                       "PNG (*.png)|*.png|" +
+                                       "BMP (*.bmp)|*.bmp|" +
+                                       "All files (*.*)|*.*";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string selectedFile = openFileDialog.FileName;
+
+                    Settings.SavePlayerPicturePath(selectedFile, (Player)this.Tag);
+
+                    ((Player)this.Tag).picturePath = Settings.LoadPlayerPicturePath((Player)this.Tag);
+
+                    FormAutomization.LoadImageIntoPictureBox(selectedFile, pbPlayerPicture);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -78,15 +78,25 @@ namespace WorldCup
 
             if (player.favorite == true)
             {
-                pbStar.Image = Image.FromFile(Path.Combine(HomePath.Value(), @"Textures\yellow-stars.png"));
-                pbStar.SizeMode = PictureBoxSizeMode.StretchImage;
+                FormAutomization.LoadImageIntoPictureBox(Path.Combine(HomePath.Value(), @"Textures\yellow-stars.png"), pbStar);
             }
             else
             {
                 pbStar.Image = null;
             }
 
-            this.Tag = player;
+            string imagePlayer = Settings.LoadPlayerPicturePath(player);
+
+            if (imagePlayer != null)
+            {
+                FormAutomization.LoadImageIntoPictureBox(Path.Combine(Settings.settingsPicturePath, imagePlayer),pbPlayerPicture);
+            }
+            else
+            {
+                FormAutomization.LoadImageIntoPictureBox(Path.Combine(HomePath.Value(), @"Textures\default-picture.png"), pbPlayerPicture);
+            }
+
+                this.Tag = player;
         }
 
         public void SetPlayerInfoFavoriteStatus(bool newFavoriteStatus)
@@ -96,8 +106,7 @@ namespace WorldCup
                 if (newFavoriteStatus)
                 {
                     player.favorite = true;
-                    pbStar.Image = Image.FromFile(Path.Combine(HomePath.Value(), @"Textures\yellow-stars.png"));
-                    pbStar.SizeMode = PictureBoxSizeMode.StretchImage;
+                    FormAutomization.LoadImageIntoPictureBox(Path.Combine(HomePath.Value(), @"Textures\yellow-stars.png"), pbStar);
                 }
                 else
                 {
@@ -135,52 +144,6 @@ namespace WorldCup
                 FormAutomization.MoveUserControlBetweenFlowLayoutPanel(this, form.flpFavoritePlayers, form.flpPlayers);
                 this.SetPlayerInfoFavoriteStatus(false);
                 Settings.RemoveFavoritePlayerSettingByPlayer(this.Tag as Player);
-            }
-        }
-
-
-        private void LoadImageIntoPictureBox(string imagePath, PictureBox pictureBox)
-        {
-            try
-            {
-                // Load the original image
-                using (Image originalImage = Image.FromFile(imagePath))
-                {
-                    // Calculate the scale factor to fit the image within the PictureBox
-                    float scaleWidth = (float)pictureBox.Width / originalImage.Width;
-                    float scaleHeight = (float)pictureBox.Height / originalImage.Height;
-                    float scale = Math.Min(scaleWidth, scaleHeight);
-
-                    // Calculate new dimensions
-                    int newWidth = (int)(originalImage.Width * scale);
-                    int newHeight = (int)(originalImage.Height * scale);
-
-                    // Create a new bitmap with the new dimensions
-                    Bitmap resizedImage = new Bitmap(newWidth, newHeight);
-
-                    // Create a graphics object to draw the resized image
-                    using (Graphics graphics = Graphics.FromImage(resizedImage))
-                    {
-                        // Set the interpolation mode for better quality
-                        graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                        graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-                        graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
-                        graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
-
-                        // Draw the resized image
-                        graphics.DrawImage(originalImage, 0, 0, newWidth, newHeight);
-                    }
-
-                    // Assign the resized image to the PictureBox
-                    pictureBox.Image = resizedImage;
-
-                    // Optional: Set the SizeMode if needed
-                    pictureBox.SizeMode = PictureBoxSizeMode.CenterImage;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error loading image: " + ex.Message);
             }
         }
 

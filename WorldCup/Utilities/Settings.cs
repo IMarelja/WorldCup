@@ -37,15 +37,8 @@ namespace WorldCup.Utilities
 
         public static string settingsFilePath = Path.Combine(HomePath.Value(), @"Settings\settings.xml");
 
-        //public static string settingsFilePath = "C:\\Users\\windsten\\source\\repos\\WorldCupProject\\WorldCup\\Settings\\settings.xml";
-
         public static string settingsPicturePath = Path.Combine(HomePath.Value(), @"Settings\Pictures");
-        /*
-        public static readonly Gender SelectedGender = LoadSettings(SettingsOptions.Gender, str =>
-                                                       Enum.TryParse(str, out Gender g) ? g : Gender.men);
-
-        public static readonly Language SelectedLanguage = LoadSettings(SettingsOptions.Language, str =>
-                                                           Enum.TryParse(str, out Language l) ? l : Language.EnUs);*/
+        
         private Settings() { }
         
         public static void SaveGenderSetting(Gender group)
@@ -459,6 +452,106 @@ namespace WorldCup.Utilities
                 return false;
             }
         }
+
+        public static void SavePlayerPicturePath(string picturePath, Player player)
+        {
+            SettingsFileCheckingAndCorruption();
+            try
+            {
+                string gender = LoadGenderTagSetting().ToString();
+                string team = LoadFavoriteTeamSetting()?.country;
+                string fileName = $"{player.shirt_number}_{player.name}.png";
+                string savePath = Path.Combine(settingsPicturePath, fileName);
+
+                // Convert to PNG if not already PNG
+                using (Image image = Image.FromFile(picturePath))
+                {
+                    image.Save(savePath, System.Drawing.Imaging.ImageFormat.Png);
+                }
+
+                XDocument doc = XDocument.Load(settingsFilePath);
+
+                // Remove or create new PlayerPicture section
+                XElement playerPictureElement = doc.Root.Elements("PlayerPicture")
+                    .FirstOrDefault(pp => pp.Attribute("team")?.Value == team && pp.Attribute("gender")?.Value == gender);
+
+                if (playerPictureElement == null)
+                {
+                    playerPictureElement = new XElement("PlayerPicture",
+                        new XAttribute("team", team),
+                        new XAttribute("gender", gender)
+                    );
+                    doc.Root.Add(playerPictureElement);
+                }
+
+                // Add or replace the specific player element
+                XElement existing = playerPictureElement.Elements("Player").FirstOrDefault(p =>
+                    p.Value == fileName &&
+                    (int)p.Attribute("shirt_number") == player.shirt_number);
+
+                if (existing != null)
+                {
+                    existing.ReplaceWith(new XElement("Player",
+                        new XAttribute("captain", player.captain),
+                        new XAttribute("shirt_number", player.shirt_number),
+                        new XAttribute("position", player.position),
+                        new XAttribute("name", player.name),
+                        fileName
+                    ));
+                }
+                else
+                {
+                    playerPictureElement.Add(new XElement("Player",
+                        new XAttribute("captain", player.captain),
+                        new XAttribute("shirt_number", player.shirt_number),
+                        new XAttribute("position", player.position),
+                        new XAttribute("name", player.name),
+                        fileName
+                    ));
+                }
+
+                doc.Save(settingsFilePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error saving player picture path: " + ex.Message);
+            }
+        }
+
+        public static string LoadPlayerPicturePath(Player player)
+        {
+            SettingsFileCheckingAndCorruption();
+            try
+            {
+                string gender = LoadGenderTagSetting().ToString();
+                string team = LoadFavoriteTeamSetting()?.country;
+
+                XDocument doc = XDocument.Load(settingsFilePath);
+
+                XElement playerPictureElement = doc.Root.Elements("PlayerPicture")
+                    .FirstOrDefault(pp => pp.Attribute("team")?.Value == team && pp.Attribute("gender")?.Value == gender);
+
+                if (playerPictureElement == null) return null;
+
+                XElement playerElement = playerPictureElement.Elements("Player").FirstOrDefault(p =>
+                    (int)p.Attribute("shirt_number") == player.shirt_number &&
+                    p.Attribute("name")?.Value == player.name);
+
+                if (playerElement != null)
+                {
+                    string fileName = playerElement.Value;
+                    return Path.Combine(settingsPicturePath, fileName);
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading player picture path: " + ex.Message);
+                return null;
+            }
+        }
+
 
 
         private static void SettingsFileCheckingAndCorruption()
