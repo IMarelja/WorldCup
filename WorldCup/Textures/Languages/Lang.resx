@@ -183,6 +183,15 @@
   </data>
   <data name="tabYellowCards" xml:space="preserve">
     <value>Yellow cards</value>
+    <comment>Yellow cards</comment>
+  </data>
+  <data name="tsmiFavoriteIt" xml:space="preserve">
+    <value>Favorite it</value>
+    <comment>PlayerInfo tmsi Favorite it</comment>
+  </data>
+  <data name="tsmiRemoveFromFavorite" xml:space="preserve">
+    <value>Unfavorite it</value>
+    <comment>PlayerInfo tmsi Remove from favorite</comment>
   </data>
   <data name="women" xml:space="preserve">
     <value>Women</value>

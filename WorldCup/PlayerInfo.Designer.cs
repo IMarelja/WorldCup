@@ -112,7 +112,8 @@
             cmsPlayerInfo.ImageScalingSize = new Size(24, 24);
             cmsPlayerInfo.Items.AddRange(new ToolStripItem[] { tsmiFavoriteIt, tsmiRemoveFromFavorite });
             cmsPlayerInfo.Name = "cmsPlayerInfo";
-            cmsPlayerInfo.Size = new Size(260, 68);
+            cmsPlayerInfo.Size = new Size(260, 101);
+            cmsPlayerInfo.Opening += cmsPlayerInfo_Opening;
             // 
             // tsmiFavoriteIt
             // 

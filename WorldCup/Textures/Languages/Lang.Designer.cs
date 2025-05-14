@@ -214,6 +214,24 @@ namespace WorldCup.Textures.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Favorite it.
+        /// </summary>
+        internal static string tsmiFavoriteIt {
+            get {
+                return ResourceManager.GetString("tsmiFavoriteIt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unfavorite it.
+        /// </summary>
+        internal static string tsmiRemoveFromFavorite {
+            get {
+                return ResourceManager.GetString("tsmiRemoveFromFavorite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Women.
         /// </summary>
         internal static string women {

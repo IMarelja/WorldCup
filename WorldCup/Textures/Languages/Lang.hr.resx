@@ -179,6 +179,12 @@
   <data name="tabYellowCards" xml:space="preserve">
     <value>Žute karte</value>
   </data>
+  <data name="tsmiFavoriteIt" xml:space="preserve">
+    <value>Sviđa ti se</value>
+  </data>
+  <data name="tsmiRemoveFromFavorite" xml:space="preserve">
+    <value>Nesviđa mi se</value>
+  </data>
   <data name="women" xml:space="preserve">
     <value>Žene</value>
     <comment>enum - Gender</comment>

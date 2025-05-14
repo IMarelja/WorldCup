@@ -292,8 +292,8 @@ namespace WorldCup
         private TabPage tabGoalScore;
         private TabPage tabYellowCards;
         private Label lbFavoriteTeam;
-        private FlowLayoutPanel flpPlayers;
-        private FlowLayoutPanel flpFavoritePlayers;
+        public FlowLayoutPanel flpPlayers;
+        public FlowLayoutPanel flpFavoritePlayers;
         private FlowLayoutPanel flpVisitorsMatchRanking;
         private FlowLayoutPanel flpGoalScored;
         private FlowLayoutPanel flpYellowCards;

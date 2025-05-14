@@ -180,6 +180,12 @@
   <data name="tabYellowCards" xml:space="preserve">
     <value>Yellow cards</value>
   </data>
+  <data name="tsmiFavoriteIt" xml:space="preserve">
+    <value>Favorite it</value>
+  </data>
+  <data name="tsmiRemoveFromFavorite" xml:space="preserve">
+    <value>Unfavorite it</value>
+  </data>
   <data name="women" xml:space="preserve">
     <value>Women</value>
     <comment>enum - Gender</comment>

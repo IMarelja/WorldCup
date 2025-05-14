@@ -120,6 +120,18 @@ namespace WorldCup.Utilities
             }
         }
 
+        public static void MoveUserControlBetweenFlowLayoutPanel(Control userControl, FlowLayoutPanel sender, FlowLayoutPanel receiver)
+        {
+            if (userControl == null || sender == null || receiver == null) return;
+
+            if (sender.Controls.Contains(userControl))
+            {
+                sender.Controls.Remove(userControl);
+                receiver.Controls.Add(userControl);
+            }
+        }
+
+
         public static void CreateRadioButtonsFromSettingsOptionLanguageEnum(GroupBox groupBox)
         {
 
@@ -189,6 +201,8 @@ namespace WorldCup.Utilities
             return null;
         }
 
+
+
         public static void ApplyLanguage(Form form, Language cultureCode)
         {
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(cultureCode.ToString());
@@ -219,6 +233,14 @@ namespace WorldCup.Utilities
             ApplyResourcesToControls(UC, rm);
         }
 
+        public static void ApplyLanguage(ContextMenuStrip CMS, Language cultureCode)
+        {
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(cultureCode.ToString());
+            ResourceManager rm = new ResourceManager("WorldCup.Textures.Languages.Lang", typeof(Program).Assembly);
+
+            ApplyResourcesToMenuItems(CMS.Items, rm);
+        }
+
         private static void ApplyResourcesToControls(Control parent, ResourceManager rm)
         {
             foreach (Control ctrl in parent.Controls)
@@ -233,6 +255,24 @@ namespace WorldCup.Utilities
                 if (ctrl.HasChildren)
                 {
                     ApplyResourcesToControls(ctrl, rm);
+                }
+            }
+        }
+
+        private static void ApplyResourcesToMenuItems(ToolStripItemCollection items, ResourceManager rm)
+        {
+            foreach (ToolStripItem item in items)
+            {
+                string localizedText = rm.GetString(item.Name);
+                if (!string.IsNullOrEmpty(localizedText))
+                {
+                    item.Text = localizedText;
+                }
+
+                // Handle nested drop-down menus recursively
+                if (item is ToolStripMenuItem menuItem && menuItem.HasDropDownItems)
+                {
+                    ApplyResourcesToMenuItems(menuItem.DropDownItems, rm);
                 }
             }
         }
