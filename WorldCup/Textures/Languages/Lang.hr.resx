@@ -120,6 +120,9 @@
   <data name="btnApply" xml:space="preserve">
     <value>Stavi</value>
   </data>
+  <data name="btnExit" xml:space="preserve">
+    <value>Izađi</value>
+  </data>
   <data name="btnSelectImage" xml:space="preserve">
     <value>Izaberi sliku</value>
   </data>

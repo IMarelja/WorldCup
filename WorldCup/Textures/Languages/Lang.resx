@@ -121,6 +121,10 @@
     <value>Apply</value>
     <comment>Button - StartForm</comment>
   </data>
+  <data name="btnExit" xml:space="preserve">
+    <value>Exit</value>
+    <comment>Settings form exit button</comment>
+  </data>
   <data name="btnSelectImage" xml:space="preserve">
     <value>Select Image</value>
     <comment>Button - PlayerInfo</comment>

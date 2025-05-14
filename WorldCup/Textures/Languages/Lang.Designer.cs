@@ -70,6 +70,15 @@ namespace WorldCup.Textures.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exit.
+        /// </summary>
+        internal static string btnExit {
+            get {
+                return ResourceManager.GetString("btnExit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select Image.
         /// </summary>
         internal static string btnSelectImage {

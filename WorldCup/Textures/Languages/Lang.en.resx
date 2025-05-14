@@ -120,6 +120,9 @@
   <data name="btnApply" xml:space="preserve">
     <value>Apply</value>
   </data>
+  <data name="btnExit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
   <data name="btnSelectImage" xml:space="preserve">
     <value>Select Image</value>
   </data>

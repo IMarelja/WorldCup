@@ -78,6 +78,7 @@ namespace WorldCup
                     {
                         if (item.id == Settings.LoadFavoriteTeamSetting().id) { 
                             cbFavoriteTeam.SelectedItem = item;
+                            this.Text = $"WorldCup - {item.country} ({item.fifa_code})";
                             break;
                         }
                     }
