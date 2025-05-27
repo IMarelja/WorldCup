@@ -70,6 +70,24 @@ namespace WorldCup.Textures.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string btnCancel {
+            get {
+                return ResourceManager.GetString("btnCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm.
+        /// </summary>
+        internal static string btnConfirm {
+            get {
+                return ResourceManager.GetString("btnConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exit.
         /// </summary>
         internal static string btnExit {
@@ -97,6 +115,15 @@ namespace WorldCup.Textures.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        internal static string ConfirmBox {
+            get {
+                return ResourceManager.GetString("ConfirmBox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Gender.
         /// </summary>
         internal static string gbGender {
@@ -111,6 +138,15 @@ namespace WorldCup.Textures.Languages {
         internal static string gbLanguage {
             get {
                 return ResourceManager.GetString("gbLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to apply?.
+        /// </summary>
+        internal static string lbAreYouSureYouWantApply {
+            get {
+                return ResourceManager.GetString("lbAreYouSureYouWantApply", resourceCulture);
             }
         }
         

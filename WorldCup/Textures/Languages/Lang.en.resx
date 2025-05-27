@@ -120,6 +120,12 @@
   <data name="btnApply" xml:space="preserve">
     <value>Apply</value>
   </data>
+  <data name="btnCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="btnConfirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
   <data name="btnExit" xml:space="preserve">
     <value>Exit</value>
   </data>
@@ -130,6 +136,9 @@
     <value>Settings</value>
     <comment>Button - WorldCup</comment>
   </data>
+  <data name="ConfirmBox" xml:space="preserve">
+    <value>Warning</value>
+  </data>
   <data name="gbGender" xml:space="preserve">
     <value>Gender</value>
     <comment>GroupBox - StartForm</comment>
@@ -137,6 +146,9 @@
   <data name="gbLanguage" xml:space="preserve">
     <value>Language</value>
     <comment>GroupBox - StartForm</comment>
+  </data>
+  <data name="lbAreYouSureYouWantApply" xml:space="preserve">
+    <value>Are you sure you want to apply?</value>
   </data>
   <data name="lbFavoritePlayers" xml:space="preserve">
     <value>Favorite Players</value>

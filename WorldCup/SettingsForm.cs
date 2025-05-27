@@ -37,9 +37,10 @@ namespace WorldCup
 
         private void btnApply_Click(object sender, EventArgs e)
         {
-            var result = MessageBox.Show("Do you want to save current choice? If yes the application will restart", "Alert", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-            if (result == DialogResult.Yes)
+            DialogResult result = ConfirmBox.Show();
+
+            if (result == DialogResult.OK)
             {
                 Gender selectedGender = (Gender)FormAutomization.GetSelectedRadioButton(gbGender).Tag;
                 String selectedLanguage = FormAutomization.GetSelectedRadioButton(gbLanguage).Text;

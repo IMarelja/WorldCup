@@ -120,6 +120,12 @@
   <data name="btnApply" xml:space="preserve">
     <value>Stavi</value>
   </data>
+  <data name="btnCancel" xml:space="preserve">
+    <value>Odbi</value>
+  </data>
+  <data name="btnConfirm" xml:space="preserve">
+    <value>Prihvati</value>
+  </data>
   <data name="btnExit" xml:space="preserve">
     <value>Izađi</value>
   </data>
@@ -129,6 +135,9 @@
   <data name="btnSettings" xml:space="preserve">
     <value>Postavke</value>
   </data>
+  <data name="ConfirmBox" xml:space="preserve">
+    <value>Upozorenje</value>
+  </data>
   <data name="gbGender" xml:space="preserve">
     <value>Spol</value>
     <comment>GroupBox - StartForm</comment>
@@ -136,6 +145,9 @@
   <data name="gbLanguage" xml:space="preserve">
     <value>Jezik</value>
     <comment>GroupBox - StartForm</comment>
+  </data>
+  <data name="lbAreYouSureYouWantApply" xml:space="preserve">
+    <value>Jeste sigurni da hoćete prihvatiti?</value>
   </data>
   <data name="lbFavoritePlayers" xml:space="preserve">
     <value>Najdraži igrači</value>
