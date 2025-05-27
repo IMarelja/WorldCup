@@ -3,3 +3,9 @@ WorldCup/Settings/*
 !WorldCup/Settings/Pictures/
 WorldCup/Settings/Picture/*
 !WorldCup/Settings/Pictures/.gitkeep
+WCRepo/bin/
+WCRepo/obj/
+WorldCup/bin/
+WorldCup/obj/
+WorldCupWPF/bin/
+WorldCupWPF/obj/
