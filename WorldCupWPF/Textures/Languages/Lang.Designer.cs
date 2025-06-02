@@ -79,6 +79,24 @@ namespace WorldCupWPF.Textures.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Info.
+        /// </summary>
+        internal static string btnInfo1 {
+            get {
+                return ResourceManager.GetString("btnInfo1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Info.
+        /// </summary>
+        internal static string btnInfo2 {
+            get {
+                return ResourceManager.GetString("btnInfo2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select Image.
         /// </summary>
         internal static string btnSelectImage {
@@ -115,6 +133,33 @@ namespace WorldCupWPF.Textures.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Resolution.
+        /// </summary>
+        internal static string gbResolution {
+            get {
+                return ResourceManager.GetString("gbResolution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Conceived.
+        /// </summary>
+        internal static string lbConceived {
+            get {
+                return ResourceManager.GetString("lbConceived", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Difference.
+        /// </summary>
+        internal static string lbDifference {
+            get {
+                return ResourceManager.GetString("lbDifference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Favorite Players.
         /// </summary>
         internal static string lbFavoritePlayers {
@@ -129,6 +174,24 @@ namespace WorldCupWPF.Textures.Languages {
         internal static string lbFavoriteTeam {
             get {
                 return ResourceManager.GetString("lbFavoriteTeam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Goals.
+        /// </summary>
+        internal static string lbGoal {
+            get {
+                return ResourceManager.GetString("lbGoal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Match.
+        /// </summary>
+        internal static string lbMatch {
+            get {
+                return ResourceManager.GetString("lbMatch", resourceCulture);
             }
         }
         
@@ -156,6 +219,15 @@ namespace WorldCupWPF.Textures.Languages {
         internal static string lbPlayers {
             get {
                 return ResourceManager.GetString("lbPlayers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scored.
+        /// </summary>
+        internal static string lbScored {
+            get {
+                return ResourceManager.GetString("lbScored", resourceCulture);
             }
         }
         

@@ -38,9 +38,10 @@
             // 
             // btnConfirm
             // 
-            btnConfirm.Location = new Point(155, 89);
+            btnConfirm.Location = new Point(108, 53);
+            btnConfirm.Margin = new Padding(2, 2, 2, 2);
             btnConfirm.Name = "btnConfirm";
-            btnConfirm.Size = new Size(112, 34);
+            btnConfirm.Size = new Size(78, 20);
             btnConfirm.TabIndex = 0;
             btnConfirm.Text = "Confirm";
             btnConfirm.UseVisualStyleBackColor = true;
@@ -48,9 +49,10 @@
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(273, 89);
+            btnCancel.Location = new Point(191, 53);
+            btnCancel.Margin = new Padding(2, 2, 2, 2);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(112, 34);
+            btnCancel.Size = new Size(78, 20);
             btnCancel.TabIndex = 1;
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = true;
@@ -59,32 +61,35 @@
             // lbAreYouSureYouWantApply
             // 
             lbAreYouSureYouWantApply.AutoSize = true;
-            lbAreYouSureYouWantApply.Location = new Point(70, 33);
+            lbAreYouSureYouWantApply.Location = new Point(49, 20);
+            lbAreYouSureYouWantApply.Margin = new Padding(2, 0, 2, 0);
             lbAreYouSureYouWantApply.Name = "lbAreYouSureYouWantApply";
-            lbAreYouSureYouWantApply.Size = new Size(269, 25);
+            lbAreYouSureYouWantApply.Size = new Size(176, 15);
             lbAreYouSureYouWantApply.TabIndex = 2;
             lbAreYouSureYouWantApply.Text = "Are you sure you want to apply?";
             // 
             // pbWarning
             // 
             pbWarning.Image = (Image)resources.GetObject("pbWarning.Image");
-            pbWarning.Location = new Point(12, 12);
+            pbWarning.Location = new Point(8, 7);
+            pbWarning.Margin = new Padding(2, 2, 2, 2);
             pbWarning.Name = "pbWarning";
-            pbWarning.Size = new Size(52, 55);
+            pbWarning.Size = new Size(36, 33);
             pbWarning.TabIndex = 3;
             pbWarning.TabStop = false;
             // 
             // ConfirmBox
             // 
             AcceptButton = btnConfirm;
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = btnCancel;
-            ClientSize = new Size(397, 135);
+            ClientSize = new Size(278, 81);
             Controls.Add(pbWarning);
             Controls.Add(lbAreYouSureYouWantApply);
             Controls.Add(btnCancel);
             Controls.Add(btnConfirm);
+            Margin = new Padding(2, 2, 2, 2);
             Name = "ConfirmBox";
             Text = "Warning";
             Load += ConfirmBox_Load;

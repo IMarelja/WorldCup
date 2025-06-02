@@ -20,5 +20,14 @@ namespace WCRepo.Models
         public int id { get; set; }
         public bool favorite { get; set; }
         public string picturePath { get; set; }
+
+        /*match*/
+        public int goalsInMatch { get; set; }
+        public int yellowCardsInMatch { get; set; }
+
+        /*all*/
+
+        public int goalsInAll {  get; set; }
+        public int yellowCardsInAll { get; set ; }
     }
 }

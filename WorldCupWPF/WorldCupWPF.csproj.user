@@ -5,5 +5,17 @@
     <Compile Update="StartWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows Tools\ConfirmBox.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows Tools\PlayerControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows Tools\PlayerInformation.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows Tools\TeamInformation.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

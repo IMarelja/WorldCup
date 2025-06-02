@@ -9,6 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="simple-football-field.jpg" />
+    <None Remove="Windows Tools\default-picture.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\WCRepo\WCRepo.csproj" />
   </ItemGroup>
 
@@ -25,6 +30,15 @@
       <LastGenOutput>Lang.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Information\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="simple-football-field.jpg" />
+    <Resource Include="Windows Tools\default-picture.png" />
   </ItemGroup>
 
 </Project>

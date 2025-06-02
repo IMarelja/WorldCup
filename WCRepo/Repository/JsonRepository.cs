@@ -27,6 +27,12 @@ namespace WCRepo.Repository
             return JsonSerializer.Deserialize<List<Match>>(json);
         }
 
+        private List<Result> LoadResults(Gender group)
+        {
+            string json = JsonDataLoad("results.json", group);
+            return JsonSerializer.Deserialize<List<Result>>(json);
+        }
+
         public Player GetPlayer(int PlayerID,int TeamID, Gender group)
         {
             var players = GetPlayers(TeamID, group);
@@ -35,8 +41,8 @@ namespace WCRepo.Repository
 
         public ISet<Player> GetPlayers(int TeamID, Gender group)
         {
-            var teams = LoadTeams(group);
-            var team = teams.FirstOrDefault(t => t.id == TeamID);
+            List<Team> teams = LoadTeams(group);
+            Team team = teams.FirstOrDefault(t => t.id == TeamID);
             if (team == null) return new HashSet<Player>();
 
             string matchesJson = JsonDataLoad("matches.json", group);
@@ -90,58 +96,6 @@ namespace WCRepo.Repository
             return players;
         }
 
-
-        /*
-        public ISet<Player> GetPlayers(int TeamID, Gender group)
-        {
-            var teams = LoadTeams(group);
-            var team = teams.FirstOrDefault(t => t.id == TeamID);
-            if (team == null) return new HashSet<Player>();
-
-            var matches = LoadMatches(group);
-            var firstMatch = matches.FirstOrDefault(m =>
-                m.home_team_country == team.country || m.away_team_country == team.country);
-
-            if (firstMatch == null) return new HashSet<Player>();
-
-            JsonDocument matchDoc = JsonDocument.Parse(JsonDataLoad("matches.json", group));
-            JsonElement matchEl = matchDoc.RootElement.EnumerateArray()
-                .FirstOrDefault(m =>
-                    m.GetProperty("home_team_country").GetString() == team.country ||
-                    m.GetProperty("away_team_country").GetString() == team.country);
-
-            if (matchEl.ValueKind == JsonValueKind.Undefined)
-                return new HashSet<Player>();
-
-            string side = matchEl.GetProperty("home_team_country").GetString() == team.country
-                ? "home_team_statistics"
-                : "away_team_statistics";
-
-            var playerSet = new HashSet<Player>();
-            var stats = matchEl.GetProperty(side);
-
-            void AddPlayers(JsonElement array)
-            {
-                int idCounter = 1;
-                foreach (var p in array.EnumerateArray())
-                {
-                    playerSet.Add(new Player
-                    {
-                        name = p.GetProperty("name").GetString(),
-                        captain = p.GetProperty("captain").GetBoolean(),
-                        shirt_number = p.GetProperty("shirt_number").GetInt32(),
-                        position = p.GetProperty("position").GetString(),
-                        favorite = false
-                    });
-                }
-            }
-
-            AddPlayers(stats.GetProperty("starting_eleven"));
-            AddPlayers(stats.GetProperty("substitutes"));
-
-            return playerSet;
-        }*/
-
         public Team GetTeam(int TeamID, Gender group)
         {
             var teams = LoadTeams(group);
@@ -154,19 +108,63 @@ namespace WCRepo.Repository
             return teams.ToHashSet();
         }
 
-        public Match GetMatch(int TeamID, Gender group)
+        public ISet<Result> GetResults(Gender group)
         {
-            throw new NotImplementedException();
-        }
-
-        public ISet<Match> GetMatches(int TeamID, Gender group)
-        {
-            throw new NotImplementedException();
+            var reults = LoadResults(group);
+            return reults.ToHashSet();
         }
 
         public string GetDirectory()
         {
             return PathToData;
+        }
+
+        public ISet<Match> GetMatches(Gender group)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Match GetMatchByTeamID(int TeamID, Gender group)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ISet<Match> GetMatchesByTeam(int TeamID, Gender group)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Match GetMatchBetweenTeams(int Team1ID, int Team2ID, Gender group)
+        {
+            var matches = LoadMatches(group);
+
+            // Find match where both teams appear
+            foreach (var match in matches)
+            {
+                bool isFirstHomeSecondAway = match.home_team_statistics.country == GetTeam(Team1ID,group).country &&
+                                             match.away_team_statistics.country == GetTeam(Team2ID, group).country;
+                bool isFirstAwaySecondHome = match.home_team_statistics.country == GetTeam(Team2ID, group).country &&
+                                             match.away_team_statistics.country == GetTeam(Team1ID, group).country;
+
+                if (isFirstHomeSecondAway || isFirstAwaySecondHome)
+                {
+                    return match;
+                }
+            }
+
+            return null;
+        }
+
+        public Result GetResult(int TeamID, Gender group)
+        {
+            var results = LoadResults(group);
+            return results.FirstOrDefault(t => t.id == TeamID);
+        }
+
+        public Match GetMatch(string MatchID, Gender group)
+        {
+            var results = LoadMatches(group);
+            return results.FirstOrDefault(t => t.fifa_id == MatchID);
         }
     }
 }

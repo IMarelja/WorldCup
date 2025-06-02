@@ -12,13 +12,32 @@ namespace WCRepo.Repository
 {
     public interface IRepository
     {
+        // Players
         Player GetPlayer(int PlayerID, int TeamID, Gender group);
         ISet<Player> GetPlayers(int TeamID, Gender group);
+
+
+        //Teams
         Team GetTeam(int TeamID, Gender group);
         ISet<Team> GetTeams(Gender group);
-        Match GetMatch(int TeamID, Gender group);
-        ISet<Match> GetMatches(int TeamID, Gender group);
+
+
+        //Matches
+        Match GetMatch(string MatchID, Gender group);
+        Match GetMatchByTeamID(int TeamID, Gender group);
+        ISet<Match> GetMatches(Gender group);
+        ISet<Match> GetMatchesByTeam(int TeamID, Gender group);
+        Match GetMatchBetweenTeams(int Team1ID, int Team2ID, Gender group);
+
+
+        //Results
+        Result GetResult(int TeamID, Gender group);
+        ISet<Result> GetResults(Gender group);
+
+
+        //Other
 
         String GetDirectory();
+        
     }
 }

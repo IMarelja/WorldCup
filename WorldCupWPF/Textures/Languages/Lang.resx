@@ -125,6 +125,12 @@
     <value>Exit</value>
     <comment>Settings form exit button</comment>
   </data>
+  <data name="btnInfo1" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="btnInfo2" xml:space="preserve">
+    <value>Info</value>
+  </data>
   <data name="btnSelectImage" xml:space="preserve">
     <value>Select Image</value>
     <comment>Button - PlayerInfo</comment>
@@ -141,6 +147,15 @@
     <value>Language</value>
     <comment>GroupBox - StartForm</comment>
   </data>
+  <data name="gbResolution" xml:space="preserve">
+    <value>Resolution</value>
+  </data>
+  <data name="lbConceived" xml:space="preserve">
+    <value>Conceived</value>
+  </data>
+  <data name="lbDifference" xml:space="preserve">
+    <value>Difference</value>
+  </data>
   <data name="lbFavoritePlayers" xml:space="preserve">
     <value>Favorite Players</value>
     <comment>Label - WorldCup</comment>
@@ -148,6 +163,12 @@
   <data name="lbFavoriteTeam" xml:space="preserve">
     <value>Favorite Team: </value>
     <comment>Label -WorldCup</comment>
+  </data>
+  <data name="lbGoal" xml:space="preserve">
+    <value>Goals</value>
+  </data>
+  <data name="lbMatch" xml:space="preserve">
+    <value>Match</value>
   </data>
   <data name="lbMatchRanking" xml:space="preserve">
     <value>Match Ranking (visitors)</value>
@@ -160,6 +181,9 @@
   <data name="lbPlayers" xml:space="preserve">
     <value>Players</value>
     <comment>Label - WorldCup</comment>
+  </data>
+  <data name="lbScored" xml:space="preserve">
+    <value>Scored</value>
   </data>
   <data name="men" xml:space="preserve">
     <value>Men</value>

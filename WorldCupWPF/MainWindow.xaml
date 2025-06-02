@@ -5,8 +5,145 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WorldCupWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="WorldCup" Height="600" Width="800" MinHeight="600" MinWidth="800" Loaded="windowMain_Loaded">
 
+    <Window.Resources>
+        <Storyboard x:Key="BlueButtonAnimation">
+            <ColorAnimation
+                Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)"
+                To="LightBlue"
+                Duration="0:0:0.5"
+                AutoReverse="True"/>
+        </Storyboard>
+
+        <Storyboard x:Key="RedButtonAnimation">
+            <ColorAnimation
+                Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)"
+                To="Salmon"
+                Duration="0:0:0.5"
+                AutoReverse="True"/>
+        </Storyboard>
+
+        <Storyboard x:Key="BounceBlue">
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                         To="0.9" Duration="0:0:0.1" AutoReverse="True"/>
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                         To="0.9" Duration="0:0:0.1" AutoReverse="True"/>
+        </Storyboard>
+
+        <Storyboard x:Key="BounceRed">
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                         To="0.9" Duration="0:0:0.1" AutoReverse="True"/>
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                         To="0.9" Duration="0:0:0.1" AutoReverse="True"/>
+        </Storyboard>
+    </Window.Resources>
+
+    <Grid>
+        <!-- Define rows: Top controls and rest of content -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" LastChildFill="False" Margin="10">
+            <Button x:Name="btnSettings" Content="Settings" DockPanel.Dock="Right" Margin="5" Click="btnSettings_Click" Width="56"/>
+
+            <Grid Width="389">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+
+
+
+                <Button x:Name="btnTeam1Info" Content="Info" Grid.Column="0" Margin="5" Width="75" Height="30" Click="btnTeam1Info_Click" MouseEnter="btnTeam1Info_MouseEnter">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="CadetBlue"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <Button.RenderTransform>
+                        <ScaleTransform ScaleX="1" ScaleY="1" CenterX="0.5" CenterY="0.5"/>
+                    </Button.RenderTransform>
+                </Button>
+
+                <ComboBox x:Name="cbTeam1" Grid.Column="1" Margin="5" Width="75" Height="30" IsEditable="True" Loaded="cbTeam1_Loaded" SelectionChanged="cbTeam1_SelectionChanged"/>
+
+                <ComboBox x:Name="cbTeam2" Grid.Column="2" Margin="5" Width="75" Height="30" IsEditable="True" Loaded="cbTeam2_Loaded" SelectionChanged="cbTeam2_SelectionChanged"/>
+
+                <Button x:Name="btnTeam2Info" Content="Info" Grid.Column="3" Margin="5" Width="75" Height="30" Click="btnTeam2Info_Click" MouseEnter="btnTeam2Info_MouseEnter">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="OrangeRed"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <Button.RenderTransform>
+                        <ScaleTransform ScaleX="1" ScaleY="1" CenterX="0.5" CenterY="0.5"/>
+                    </Button.RenderTransform>
+                </Button>
+            </Grid>
+            <Label x:Name="lbMatchResult" Width="auto" Content="" HorizontalAlignment="Center" FontWeight="Bold" FontSize="16"></Label>
+        </DockPanel>
+
+        <!-- Placeholder for rest of content -->
+        <Grid x:Name="playingFieldWorldCup" Grid.Row="1">
+            <Grid.Background>
+                <ImageBrush ImageSource="/simple-football-field.jpg" Stretch="Fill"/>
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
+                <!-- Home Team -->
+                <!-- Goalie -->
+                <ColumnDefinition Width="*"/>
+                <!-- Defender -->
+                <ColumnDefinition Width="*"/>
+                <!-- Midfield -->
+                <ColumnDefinition Width="*"/>
+                <!-- Forward -->
+                <ColumnDefinition Width="*"/>
+                
+                <!-- Away Team -->
+                <!-- Forward -->
+                <ColumnDefinition Width="*"/>
+                <!-- Midfield -->
+                <ColumnDefinition Width="*"/>
+                <!-- Defender -->
+                <ColumnDefinition Width="*"/>
+                <!-- Goalie -->
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid/>
+
+        </Grid>
+        
     </Grid>
 </Window>

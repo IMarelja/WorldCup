@@ -18,9 +18,9 @@ namespace WorldCup.Utilities
     {
         Gender,
         Language,
-        FavoriteTeamID,
-        FavoritePlayersID,
-        PlayerPictureAssignID
+        FavoriteTeamid,
+        FavoritePlayersid,
+        PlayerPictureAssignid
     }
     
     public enum Language
@@ -251,10 +251,10 @@ namespace WorldCup.Utilities
                     .FirstOrDefault(e => e.Attribute("gender")?.Value == LoadGenderTagSetting().ToString());
 
                 if (favoriteTeamElement != null &&
-                    int.TryParse(favoriteTeamElement.Attribute("id")?.Value, out int teamId))
+                    int.TryParse(favoriteTeamElement.Attribute("id")?.Value, out int teamid))
                 {
                     string teamName = favoriteTeamElement.Value;
-                    return new Team { id = teamId, country = teamName };
+                    return new Team { id = teamid, country = teamName };
                 }
 
                 return null;

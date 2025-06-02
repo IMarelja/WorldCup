@@ -21,12 +21,18 @@ namespace WorldCupWPF.Utilities
 
         public static RadioButton GetSelectedRadioButton(GroupBox groupBox)
         {
-            if (groupBox?.Content is Panel panel)
+            if (groupBox?.Content is Grid grid)
             {
-                foreach (var child in panel.Children)
+                foreach (var child in grid.Children)
                 {
-                    if (child is RadioButton radioButton && radioButton.IsChecked == true)
-                        return radioButton;
+                    if (child is StackPanel panel)
+                    {
+                        foreach (var element in panel.Children)
+                        {
+                            if (element is RadioButton radioButton && radioButton.IsChecked == true)
+                                return radioButton;
+                        }
+                    }
                 }
             }
 
@@ -35,9 +41,7 @@ namespace WorldCupWPF.Utilities
 
 
 
-        //============================================================================
-        // Warning: Grid might not be great, replace if something obviously goes wrong
-        //============================================================================
+
         public static void CreateRadioButtonsFromSettingsOptionEnum<T>(GroupBox groupBox) where T : Enum
         {
             ResourceManager rm = new ResourceManager("WorldCupWPF.Textures.Languages.Lang", typeof(WorldCupWPF.App).Assembly);
@@ -46,7 +50,7 @@ namespace WorldCupWPF.Utilities
             var grid = new Grid();
             groupBox.Content = grid;
 
-            int maxButtonsPerColumn = 3;
+            int maxButtonsPerColumn = 4;
             int buttonCount = 0;
             int columnCount = 0;
 
@@ -74,7 +78,7 @@ namespace WorldCupWPF.Utilities
                 currentStack.Children.Add(rb);
 
                 buttonCount++;
-                if (buttonCount >= maxButtonsPerColumn)
+                if (buttonCount > maxButtonsPerColumn)
                 {
                     buttonCount = 0;
                     columnCount++;
@@ -96,7 +100,7 @@ namespace WorldCupWPF.Utilities
             var grid = new Grid();
             groupBox.Content = grid;
 
-            int maxButtonsPerColumn = 3;
+            int maxButtonsPerColumn = 4;
             int buttonCount = 0;
             int columnCount = 0;
 
@@ -124,7 +128,7 @@ namespace WorldCupWPF.Utilities
                 currentStack.Children.Add(rb);
 
                 buttonCount++;
-                if (buttonCount >= maxButtonsPerColumn)
+                if (buttonCount > maxButtonsPerColumn)
                 {
                     buttonCount = 0;
                     columnCount++;
@@ -140,32 +144,13 @@ namespace WorldCupWPF.Utilities
         }
 
 
-
-        //============================================================================
-        // Warning: ⚠️ If using nested panels: If your layout is more complex (e.g. multiple nested StackPanels or a Grid), you’ll need a recursive version. Just let me know if that’s your case, and I’ll provide it.
-        //============================================================================
-        public static void SetDefaultRadioButtonForGroupBox(System.Windows.Controls.GroupBox groupBox, string loadedSettingFromTag)
-        {
-            if (groupBox.Content is Panel panel)
-            {
-                foreach (var rb in panel.Children.OfType<RadioButton>())
-                {
-                    if (rb.Tag?.ToString() == loadedSettingFromTag)
-                    {
-                        rb.IsChecked = true;
-                        break;
-                    }
-                }
-            }
-        }
-
         public static void CreateRadioButtonsFromSettingsOptionLanguageEnum(System.Windows.Controls.GroupBox groupBox)
         {
 
             var grid = new Grid();
             groupBox.Content = grid;
 
-            int maxButtonsPerColumn = 3;
+            int maxButtonsPerColumn = 4;
             int buttonCount = 0;
             int columnCount = 0;
 
@@ -191,7 +176,7 @@ namespace WorldCupWPF.Utilities
                 currentStack.Children.Add(rb);
 
                 buttonCount++;
-                if (buttonCount >= maxButtonsPerColumn)
+                if (buttonCount > maxButtonsPerColumn)
                 {
                     buttonCount = 0;
                     columnCount++;
@@ -207,32 +192,115 @@ namespace WorldCupWPF.Utilities
             }
         }
 
-        public static void SetDefaultRadioButtonForLanguageGroupBox(System.Windows.Controls.GroupBox groupBox, string loadedSetting)
+        public static void SetDefaultRadioButtonForGroupBox(GroupBox groupBox, string loadedSettingFromTag)
         {
-            if (groupBox.Content is Panel panel)
+            void SetCheckedRecursive(DependencyObject parent)
             {
-                foreach (var rb in panel.Children.OfType<RadioButton>())
+                int count = VisualTreeHelper.GetChildrenCount(parent);
+                for (int i = 0; i < count; i++)
                 {
-                    if (rb.Content?.ToString() == loadedSetting)
+                    var child = VisualTreeHelper.GetChild(parent, i);
+
+                    if (child is RadioButton rb && rb.Tag?.ToString() == loadedSettingFromTag)
                     {
                         rb.IsChecked = true;
-                        break;
+                        return; // Stop as soon as we find and set the correct RadioButton
                     }
+
+                    SetCheckedRecursive(child); // Recursively check all children
                 }
+            }
+
+            if (groupBox?.Content is DependencyObject root)
+            {
+                SetCheckedRecursive(root);
             }
         }
 
-        private static string GetEnumDescription<T>(T value) where T : Enum
+
+        public static void SetDefaultRadioButtonForLanguageGroupBox(System.Windows.Controls.GroupBox groupBox, string loadedSetting)
         {
-            var fieldInfo = value.GetType().GetField(value.ToString());
+            void SetCheckedRecursive(DependencyObject parent)
+            {
+                int count = VisualTreeHelper.GetChildrenCount(parent);
+                for (int i = 0; i < count; i++)
+                {
+                    var child = VisualTreeHelper.GetChild(parent, i);
 
-            var attributes = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(
-                typeof(DescriptionAttribute), false);
+                    if (child is RadioButton rb && rb.Content?.ToString() == loadedSetting)
+                    {
+                        rb.IsChecked = true;
+                        return;
+                    }
 
-            if (attributes != null && attributes.Length > 0)
-                return attributes[0].Description;
+                    SetCheckedRecursive(child); // Recursively search children
+                }
+            }
 
-            return null;
+            if (groupBox?.Content is DependencyObject root)
+            {
+                SetCheckedRecursive(root);
+            }
+        }
+
+
+        public static void SetDefaultRadioButtonForDescriptionEnumGroupBox(GroupBox groupBox, string loadedDescription)
+        {
+            void SetCheckedRecursive(DependencyObject parent)
+            {
+                int count = VisualTreeHelper.GetChildrenCount(parent);
+                for (int i = 0; i < count; i++)
+                {
+                    var child = VisualTreeHelper.GetChild(parent, i);
+
+                    if (child is RadioButton rb && rb.Content?.ToString() == loadedDescription)
+                    {
+                        rb.IsChecked = true;
+                        return;
+                    }
+
+                    SetCheckedRecursive(child);
+                }
+            }
+
+            if (groupBox?.Content is DependencyObject root)
+            {
+                SetCheckedRecursive(root);
+            }
+        }
+
+        public static void SetWindowResolutionBasedOnResolutionSettings(Window window)
+        {
+            Resolution resolution = Settings.LoadResolutionTagSetting();
+
+            switch (resolution)
+            {
+                case Resolution.Resolution800x600:
+                    window.Width = 800;
+                    window.Height = 600;
+                    window.WindowState = WindowState.Normal;
+                    break;
+                case Resolution.Resolution1366x768:
+                    window.Width = 1366;
+                    window.Height = 768;
+                    window.WindowState = WindowState.Normal;
+                    break;
+                case Resolution.Resolution1600x900:
+                    window.Width = 1600;
+                    window.Height = 900;
+                    window.WindowState = WindowState.Normal;
+                    break;
+                case Resolution.ResolutionFullscreen:
+                    window.WindowState = WindowState.Maximized;
+                    window.WindowStyle = WindowStyle.None;
+                    break;
+                default:
+                    MessageBox.Show("Failed to load Resolution.\nWrongly stored in settings.xml file or Wrongly extracted");
+                    window.Width = 800;
+                    window.Height = 600;
+                    window.WindowState = WindowState.Normal;
+                    break;
+            }
         }
 
 
@@ -247,7 +315,7 @@ namespace WorldCupWPF.Utilities
                 window.Title = windowTitle;
             }
 
-            ApplyResourcesToFrameworkElements(window, rm);
+            ApplyLanguage(window, rm);
         }
 
 
@@ -258,9 +326,9 @@ namespace WorldCupWPF.Utilities
 
             // Apply resources to the form itself (the form might have a name/title too)
             string formText = rm.GetString(UC.Name);
-            
 
-            ApplyResourcesToControls(UC, rm);
+
+            ApplyLanguage(UC, rm);
         }
 
         public static void ApplyLanguage(ContextMenu menu, Language cultureCode)
@@ -268,10 +336,10 @@ namespace WorldCupWPF.Utilities
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(cultureCode.ToString());
             ResourceManager rm = new ResourceManager("WorldCupWPF.Textures.Languages.Lang", typeof(App).Assembly);
 
-            ApplyResourcesToMenuItems(menu.Items, rm);
+            ApplyLanguage(menu.Items, rm);
         }
 
-        private static void ApplyResourcesToFrameworkElements(DependencyObject parent, ResourceManager rm)
+        private static void ApplyLanguage(DependencyObject parent, ResourceManager rm)
         {
             int count = VisualTreeHelper.GetChildrenCount(parent);
             for (int i = 0; i < count; i++)
@@ -292,13 +360,13 @@ namespace WorldCupWPF.Utilities
                     }
                 }
 
-                ApplyResourcesToFrameworkElements(child, rm);
+                ApplyLanguage(child, rm);
             }
         }
 
 
 
-        private static void ApplyResourcesToControls(UserControl parent, ResourceManager rm)
+        private static void ApplyLanguage(UserControl parent, ResourceManager rm)
         {
             foreach (var child in LogicalTreeHelper.GetChildren(parent))
             {
@@ -325,7 +393,7 @@ namespace WorldCupWPF.Utilities
             }
         }
 
-        private static void ApplyResourcesToMenuItems(ItemCollection items, ResourceManager rm)
+        private static void ApplyLanguage(ItemCollection items, ResourceManager rm)
         {
             foreach (var obj in items)
             {
@@ -339,10 +407,24 @@ namespace WorldCupWPF.Utilities
 
                     if (menuItem.HasItems)
                     {
-                        ApplyResourcesToMenuItems(menuItem.Items, rm);
+                        ApplyLanguage(menuItem.Items, rm);
                     }
                 }
             }
+        }
+
+
+        private static string GetEnumDescription<T>(T value) where T : Enum
+        {
+            var fieldInfo = value.GetType().GetField(value.ToString());
+
+            var attributes = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(
+                typeof(DescriptionAttribute), false);
+
+            if (attributes != null && attributes.Length > 0)
+                return attributes[0].Description;
+
+            return null;
         }
 
 

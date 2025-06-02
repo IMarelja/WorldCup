@@ -52,10 +52,12 @@ namespace WorldCupWPF
             try
             {
                 string selectedGender = FormAutomization.GetSelectedRadioButton(gbGender).Name;
-                string selectedLanguage = FormAutomization.GetSelectedRadioButton(gbLanguage).Name;
+                string selectedLanguage = FormAutomization.GetSelectedRadioButton(gbLanguage).Tag.ToString();
+                string selectedResolution = FormAutomization.GetSelectedRadioButton(gbResolution).Tag.ToString();
 
                 Settings.SaveGenderSetting(selectedGender);
                 Settings.SaveLanguageSettings(selectedLanguage);
+                Settings.SaveResolutionSetting(selectedResolution);
 
                 this.Hide();
                 Window worldCup = new MainWindow();

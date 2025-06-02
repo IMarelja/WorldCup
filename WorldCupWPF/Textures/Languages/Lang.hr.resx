@@ -123,6 +123,12 @@
   <data name="btnExit" xml:space="preserve">
     <value>Izađi</value>
   </data>
+  <data name="btnInfo1" xml:space="preserve">
+    <value>Infor</value>
+  </data>
+  <data name="btnInfo2" xml:space="preserve">
+    <value>Infor</value>
+  </data>
   <data name="btnSelectImage" xml:space="preserve">
     <value>Izaberi sliku</value>
   </data>
@@ -137,12 +143,27 @@
     <value>Jezik</value>
     <comment>GroupBox - StartForm</comment>
   </data>
+  <data name="gbResolution" xml:space="preserve">
+    <value>Resolucija</value>
+  </data>
+  <data name="lbConceived" xml:space="preserve">
+    <value>Primljen</value>
+  </data>
+  <data name="lbDifference" xml:space="preserve">
+    <value>Razlika </value>
+  </data>
   <data name="lbFavoritePlayers" xml:space="preserve">
     <value>Najdraži igrači</value>
     <comment>Label - WorldCup</comment>
   </data>
   <data name="lbFavoriteTeam" xml:space="preserve">
     <value>Najdraži tim:</value>
+  </data>
+  <data name="lbGoal" xml:space="preserve">
+    <value>Golovi</value>
+  </data>
+  <data name="lbMatch" xml:space="preserve">
+    <value>Igra</value>
   </data>
   <data name="lbMatchRanking" xml:space="preserve">
     <value>Igre Rang (posjetitelji)</value>
@@ -155,6 +176,9 @@
   <data name="lbPlayers" xml:space="preserve">
     <value>Igrači</value>
     <comment>Label - WorldCup</comment>
+  </data>
+  <data name="lbScored" xml:space="preserve">
+    <value>Postignut </value>
   </data>
   <data name="men" xml:space="preserve">
     <value>Muškarci</value>

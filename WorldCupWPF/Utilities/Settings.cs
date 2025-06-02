@@ -33,7 +33,9 @@ namespace WorldCupWPF.Utilities
         [Description("1366x768")]
         Resolution1366x768,
         [Description("1600x900")]
-        Resolution1600x900
+        Resolution1600x900,
+        [Description("Fullscreen")]
+        ResolutionFullscreen
     }
     public class Settings
     {
@@ -41,7 +43,11 @@ namespace WorldCupWPF.Utilities
         public static string settingsFilePath = Path.Combine(HomePath.Value(), @"Settings\settings.xml");
 
         public static string settingsPicturePath = Path.Combine(HomePath.Value(), @"Settings\Pictures");
-        
+
+        public static string settingsWindowsFormFilePath = Path.Combine(Path.Combine(Directory.GetParent(HomePath.Value()).Parent.FullName, @"WorldCup"), @"Settings\settings.xml");
+
+        public static string settingsWindowsFormPicturePath = Path.Combine(Path.Combine(Directory.GetParent(HomePath.Value()).Parent.FullName, @"WorldCup"), @"Settings\Pictures");
+
         private Settings() { }
         
         public static void SaveGenderSetting(Gender group)
@@ -213,6 +219,94 @@ namespace WorldCupWPF.Utilities
             var attr = (DescriptionAttribute)Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute));
             return attr?.Description ?? language.ToString();
         }
+
+        public static void SaveResolutionSetting(Resolution resolution)
+        {
+            SettingsFileCheckingAndCorruption();
+            try
+            {
+                XDocument doc = XDocument.Load(settingsFilePath);
+                XElement resolutionElement = doc.Root.Element("Resolution");
+
+                resolutionElement?.Remove();
+
+                resolutionElement = new XElement("Resolution", resolution.ToString());
+
+                doc.Root.Add(resolutionElement);
+                doc.Save(settingsFilePath);
+            }
+            catch (FileNotFoundException ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+            }
+        }
+
+        public static void SaveResolutionSetting(string resolution)
+        {
+            SettingsFileCheckingAndCorruption();
+            try
+            {
+                if (string.IsNullOrEmpty(resolution))
+                {
+                    throw new Exception("Resolution value is empty");
+                }
+
+                Resolution resolutionEnum = GetEnumValueFromDescription<Resolution>(resolution);
+
+                XDocument doc = XDocument.Load(settingsFilePath);
+                XElement resolutionElement = doc.Root.Element("Resolution");
+
+                resolutionElement?.Remove();
+
+                resolutionElement = new XElement("Resolution", resolutionEnum.ToString());
+
+                doc.Root.Add(resolutionElement);
+                doc.Save(settingsFilePath);
+            }
+            catch (FileNotFoundException ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+            }
+        }
+
+        public static Resolution LoadResolutionTagSetting()
+        {
+            SettingsFileCheckingAndCorruption();
+            try
+            {
+                XDocument doc = XDocument.Load(settingsFilePath);
+                var resText = doc.Root.Element("Resolution")?.Value;
+                return Enum.TryParse(resText, out Resolution resolution) ? resolution : Resolution.Resolution1366x768;
+            }
+            catch (FileNotFoundException ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+                return Resolution.Resolution1366x768;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+                return Resolution.Resolution1366x768;
+            }
+        }
+
+        public static string LoadResolutionDescriptionSetting()
+        {
+            var resolution = LoadResolutionTagSetting();
+            var field = typeof(Resolution).GetField(resolution.ToString());
+            var attr = (DescriptionAttribute)Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute));
+            return attr?.Description ?? resolution.ToString();
+        }
+
+
 
         public static void SaveFavoriteTeamSetting(Team team)
         {
@@ -464,15 +558,9 @@ namespace WorldCupWPF.Utilities
                 string gender = LoadGenderTagSetting().ToString();
                 string team = LoadFavoriteTeamSetting()?.country;
                 string fileName = $"{player.shirt_number}_{player.name}.png";
-                string savePath = Path.Combine(settingsPicturePath, fileName);
-                /*
-                // Convert to PNG if not already PNG
-                using (Image image = Image.FromFile(picturePath))
-                {
-                    image.Save(savePath, System.Drawing.Imaging.ImageFormat.Png);
-                }*/
+                string savePath = Path.Combine(settingsWindowsFormPicturePath, fileName);
 
-                XDocument doc = XDocument.Load(settingsFilePath);
+                XDocument doc = XDocument.Load(settingsWindowsFormFilePath);
 
                 // Remove or create new PlayerPicture section
                 XElement playerPictureElement = doc.Root.Elements("PlayerPicture")
@@ -513,7 +601,7 @@ namespace WorldCupWPF.Utilities
                     ));
                 }
 
-                doc.Save(settingsFilePath);
+                doc.Save(settingsWindowsFormFilePath);
             }
             catch (Exception ex)
             {
@@ -529,7 +617,7 @@ namespace WorldCupWPF.Utilities
                 string gender = LoadGenderTagSetting().ToString();
                 string team = LoadFavoriteTeamSetting()?.country;
 
-                XDocument doc = XDocument.Load(settingsFilePath);
+                XDocument doc = XDocument.Load(settingsWindowsFormFilePath);
 
                 XElement playerPictureElement = doc.Root.Elements("PlayerPicture")
                     .FirstOrDefault(pp => pp.Attribute("team")?.Value == team && pp.Attribute("gender")?.Value == gender);
@@ -543,7 +631,7 @@ namespace WorldCupWPF.Utilities
                 if (playerElement != null)
                 {
                     string fileName = playerElement.Value;
-                    return Path.Combine(settingsPicturePath, fileName);
+                    return Path.Combine(settingsWindowsFormPicturePath, fileName);
                 }
 
                 return null;
