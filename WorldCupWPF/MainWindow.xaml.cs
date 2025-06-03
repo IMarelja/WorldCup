@@ -22,8 +22,15 @@ namespace WorldCupWPF
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
+
+    
+
     public partial class MainWindow : Window
     {
+        public static Team HomeTeam;
+        public static Team AwayTeam;
+
         private static readonly IRepository repository = RepositoryFactory.GetRepository();
         public MainWindow()
         {
@@ -95,14 +102,14 @@ namespace WorldCupWPF
         {
             try
             {
-                Team homeTeam = comboBox1.SelectedItem as Team;
-                Team awayTeam = comboBox2.SelectedItem as Team;
+                HomeTeam = comboBox1.SelectedItem as Team;
+                AwayTeam = comboBox2.SelectedItem as Team;
 
                 Gender group = Settings.LoadGenderTagSetting();
 
                 playingFieldWorldCup.Children.Clear();
 
-                WCRepo.Model.Match match = repository.GetMatchBetweenTeams(homeTeam.id, awayTeam.id, group);
+                WCRepo.Model.Match match = repository.GetMatchBetweenTeams(HomeTeam.id, AwayTeam.id, group);
 
                 playingFieldWorldCup.Children.Clear();
 

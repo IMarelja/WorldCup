@@ -152,6 +152,9 @@
   <data name="lbDifference" xml:space="preserve">
     <value>Razlika </value>
   </data>
+  <data name="lbDraw" xml:space="preserve">
+    <value>Jednako</value>
+  </data>
   <data name="lbFavoritePlayers" xml:space="preserve">
     <value>Najdraži igrači</value>
     <comment>Label - WorldCup</comment>
@@ -159,8 +162,11 @@
   <data name="lbFavoriteTeam" xml:space="preserve">
     <value>Najdraži tim:</value>
   </data>
-  <data name="lbGoal" xml:space="preserve">
+  <data name="lbGoals" xml:space="preserve">
     <value>Golovi</value>
+  </data>
+  <data name="lbLoses" xml:space="preserve">
+    <value>Gubitci</value>
   </data>
   <data name="lbMatch" xml:space="preserve">
     <value>Igra</value>
@@ -179,6 +185,12 @@
   </data>
   <data name="lbScored" xml:space="preserve">
     <value>Postignut </value>
+  </data>
+  <data name="lbWins" xml:space="preserve">
+    <value>Pobjede</value>
+  </data>
+  <data name="lbYellowCards" xml:space="preserve">
+    <value>Žute karte</value>
   </data>
   <data name="men" xml:space="preserve">
     <value>Muškarci</value>

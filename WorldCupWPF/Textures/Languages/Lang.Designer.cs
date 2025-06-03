@@ -160,6 +160,15 @@ namespace WorldCupWPF.Textures.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Draw.
+        /// </summary>
+        internal static string lbDraw {
+            get {
+                return ResourceManager.GetString("lbDraw", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Favorite Players.
         /// </summary>
         internal static string lbFavoritePlayers {
@@ -180,9 +189,18 @@ namespace WorldCupWPF.Textures.Languages {
         /// <summary>
         ///   Looks up a localized string similar to Goals.
         /// </summary>
-        internal static string lbGoal {
+        internal static string lbGoals {
             get {
-                return ResourceManager.GetString("lbGoal", resourceCulture);
+                return ResourceManager.GetString("lbGoals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string lbLoses {
+            get {
+                return ResourceManager.GetString("lbLoses", resourceCulture);
             }
         }
         
@@ -228,6 +246,24 @@ namespace WorldCupWPF.Textures.Languages {
         internal static string lbScored {
             get {
                 return ResourceManager.GetString("lbScored", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wins.
+        /// </summary>
+        internal static string lbWins {
+            get {
+                return ResourceManager.GetString("lbWins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string lbYellowCards {
+            get {
+                return ResourceManager.GetString("lbYellowCards", resourceCulture);
             }
         }
         

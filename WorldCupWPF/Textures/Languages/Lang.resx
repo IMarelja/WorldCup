@@ -156,6 +156,9 @@
   <data name="lbDifference" xml:space="preserve">
     <value>Difference</value>
   </data>
+  <data name="lbDraw" xml:space="preserve">
+    <value>Draw</value>
+  </data>
   <data name="lbFavoritePlayers" xml:space="preserve">
     <value>Favorite Players</value>
     <comment>Label - WorldCup</comment>
@@ -164,8 +167,12 @@
     <value>Favorite Team: </value>
     <comment>Label -WorldCup</comment>
   </data>
-  <data name="lbGoal" xml:space="preserve">
+  <data name="lbGoals" xml:space="preserve">
     <value>Goals</value>
+  </data>
+  <data name="lbLoses" xml:space="preserve">
+    <value />
+    <comment>Losses</comment>
   </data>
   <data name="lbMatch" xml:space="preserve">
     <value>Match</value>
@@ -184,6 +191,13 @@
   </data>
   <data name="lbScored" xml:space="preserve">
     <value>Scored</value>
+  </data>
+  <data name="lbWins" xml:space="preserve">
+    <value>Wins</value>
+  </data>
+  <data name="lbYellowCards" xml:space="preserve">
+    <value />
+    <comment>Yellow Cards</comment>
   </data>
   <data name="men" xml:space="preserve">
     <value>Men</value>

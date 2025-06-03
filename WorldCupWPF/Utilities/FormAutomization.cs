@@ -328,7 +328,7 @@ namespace WorldCupWPF.Utilities
             string formText = rm.GetString(UC.Name);
 
 
-            ApplyLanguage(UC, rm);
+            ApplyLanguage(UC as DependencyObject, rm);
         }
 
         public static void ApplyLanguage(ContextMenu menu, Language cultureCode)
@@ -341,6 +341,8 @@ namespace WorldCupWPF.Utilities
 
         private static void ApplyLanguage(DependencyObject parent, ResourceManager rm)
         {
+            if (parent == null) return;
+
             int count = VisualTreeHelper.GetChildrenCount(parent);
             for (int i = 0; i < count; i++)
             {
@@ -351,18 +353,25 @@ namespace WorldCupWPF.Utilities
                     string localizedText = rm.GetString(fe.Name);
                     if (!string.IsNullOrEmpty(localizedText))
                     {
+                        if (fe is HeaderedContentControl hcc)
+                            hcc.Header = localizedText;
+
                         if (fe is ContentControl cc)
                             cc.Content = localizedText;
-                        else if (fe is HeaderedContentControl hcc)
-                            hcc.Header = localizedText;
-                        else if (fe is TextBlock tb)
+
+                        if (fe is TextBlock tb)
                             tb.Text = localizedText;
+
+                        var textProp = fe.GetType().GetProperty("Text");
+                        if (textProp != null && textProp.CanWrite)
+                            textProp.SetValue(fe, localizedText);
                     }
                 }
 
                 ApplyLanguage(child, rm);
             }
         }
+
 
 
 
@@ -435,15 +444,19 @@ namespace WorldCupWPF.Utilities
                 BitmapImage bitmap = new BitmapImage();
                 bitmap.BeginInit();
                 bitmap.UriSource = new Uri(imagePath, UriKind.RelativeOrAbsolute);
-                bitmap.DecodePixelWidth = (int)imageControl.Width;
-                bitmap.DecodePixelHeight = (int)imageControl.Height;
+
+                if (imageControl.Width > 0)
+                    bitmap.DecodePixelWidth = (int)imageControl.Width;
+                if (imageControl.Height > 0)
+                    bitmap.DecodePixelHeight = (int)imageControl.Height;
+
                 bitmap.CacheOption = BitmapCacheOption.OnLoad;
                 bitmap.EndInit();
                 bitmap.Freeze();
 
                 imageControl.Source = bitmap;
 
-                imageControl.Stretch = Stretch.Uniform;
+                imageControl.Stretch = Stretch.Fill;
                 imageControl.HorizontalAlignment = HorizontalAlignment.Center;
                 imageControl.VerticalAlignment = VerticalAlignment.Center;
             }

@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
+using System.Windows;
 using System.Xml;
+using System.Xml.Linq;
 using WCRepo.Model;
 using WCRepo.Models;
-using System.Globalization;
-using System.Resources;
-using System.IO;
 
 namespace WorldCupWPF.Utilities
 {
@@ -44,9 +45,9 @@ namespace WorldCupWPF.Utilities
 
         public static string settingsPicturePath = Path.Combine(HomePath.Value(), @"Settings\Pictures");
 
-        public static string settingsWindowsFormFilePath = Path.Combine(Path.Combine(Directory.GetParent(HomePath.Value()).Parent.FullName, @"WorldCup"), @"Settings\settings.xml");
+        public static string settingsWindowsFormFilePath = Path.Combine(Path.Combine(Directory.GetParent(HomePath.Value()).FullName, @"WorldCup"), @"Settings\settings.xml");
 
-        public static string settingsWindowsFormPicturePath = Path.Combine(Path.Combine(Directory.GetParent(HomePath.Value()).Parent.FullName, @"WorldCup"), @"Settings\Pictures");
+        public static string settingsWindowsFormPicturePath = Path.Combine(Path.Combine(Directory.GetParent(HomePath.Value()).FullName, @"WorldCup"), @"Settings\Pictures");
 
         private Settings() { }
         
@@ -306,331 +307,58 @@ namespace WorldCupWPF.Utilities
             return attr?.Description ?? resolution.ToString();
         }
 
-
-
-        public static void SaveFavoriteTeamSetting(Team team)
-        {
-            SettingsFileCheckingAndCorruption();
-            try
-            {
-                XDocument doc = XDocument.Load(settingsFilePath);
-                XElement favoriteTeamElement = doc.Root.Elements("FavoriteTeam").FirstOrDefault(e => e.Attribute("gender")?.Value == Settings.LoadGenderTagSetting().ToString()); ;
-
-                favoriteTeamElement?.Remove();
-
-                favoriteTeamElement = new XElement("FavoriteTeam", new XAttribute("id", team.id), new XAttribute("gender", Settings.LoadGenderTagSetting()), team.country);
-
-                doc.Root.Add(favoriteTeamElement);
-
-                doc.Save(settingsFilePath);
-                
-
-                
-            }
-            catch (FileNotFoundException ex)
-            {
-                System.Windows.MessageBox.Show(ex.Message);
-                
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show(ex.Message);
-            }
-        }
-
-        public static Team LoadFavoriteTeamSetting()
-        {
-            SettingsFileCheckingAndCorruption();
-            try
-            {
-                XDocument doc = XDocument.Load(settingsFilePath);
-                XElement favoriteTeamElement = doc.Root.Elements("FavoriteTeam")
-                    .FirstOrDefault(e => e.Attribute("gender")?.Value == LoadGenderTagSetting().ToString());
-
-                if (favoriteTeamElement != null &&
-                    int.TryParse(favoriteTeamElement.Attribute("id")?.Value, out int teamId))
-                {
-                    string teamName = favoriteTeamElement.Value;
-                    return new Team { id = teamId, country = teamName };
-                }
-
-                return null;
-            }
-            catch (FileNotFoundException ex)
-            {
-                System.Windows.MessageBox.Show(ex.Message);
-                return null;
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show(ex.Message);
-                return null;
-            }
-        }
-        
-        public static void SaveFavoritePlayerSetting(Player player)
-        {
-            SettingsFileCheckingAndCorruption();
-            try
-            {
-                XDocument doc = XDocument.Load(settingsFilePath);
-                string gender = LoadGenderTagSetting().ToString();
-                string team = LoadFavoriteTeamSetting()?.country;
-
-                if (string.IsNullOrEmpty(team) || string.IsNullOrEmpty(gender))
-                {
-                    System.Windows.MessageBox.Show("Favorite team or gender is not set.");
-                    return;
-                }
-
-                // Find existing FavoritePlayer node
-                XElement existingTeamNode = doc.Root.Elements("FavoritePlayer")
-                    .FirstOrDefault(fp =>
-                        (string)fp.Attribute("team") == team &&
-                        (string)fp.Attribute("gender") == gender);
-
-                if (existingTeamNode == null)
-                {
-                    // Create new FavoritePlayer node
-                    existingTeamNode = new XElement("FavoritePlayer",
-                        new XAttribute("team", team),
-                        new XAttribute("gender", gender));
-
-                    doc.Root.Add(existingTeamNode);
-                }
-
-                // Create new Player element
-                XElement newPlayer = new XElement("Player",
-                    new XAttribute("captain", player.captain.ToString().ToLower()),
-                    new XAttribute("shirt_number", player.shirt_number),
-                    new XAttribute("position", player.position),
-                    player.name);
-
-                existingTeamNode.Add(newPlayer);
-                doc.Save(settingsFilePath);
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show(ex.Message);
-            }
-        }
-
-        public static Player LoadFavoritePlayerSettingByPlayer(Player player)
-        {
-            SettingsFileCheckingAndCorruption();
-            try
-            {
-                var doc = XDocument.Load(settingsFilePath);
-                var gender = LoadGenderTagSetting().ToString();
-                var team = LoadFavoriteTeamSetting()?.country;
-
-                var playerElement = doc.Descendants("FavoritePlayer")
-                    .FirstOrDefault(fp =>
-                        (string)fp.Attribute("team") == team &&
-                        (string)fp.Attribute("gender") == gender)?
-                    .Elements("Player")
-                    .FirstOrDefault(p =>
-                        (string)p.Value == player.name &&
-                        (int)p.Attribute("shirt_number") == player.shirt_number);
-
-                if (playerElement == null) return null;
-
-                return new Player
-                {
-                    name = playerElement.Value,
-                    captain = bool.Parse(playerElement.Attribute("captain")?.Value ?? "false"),
-                    shirt_number = int.Parse(playerElement.Attribute("shirt_number")?.Value ?? "0"),
-                    position = playerElement.Attribute("position")?.Value
-                };
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show(ex.Message);
-                return null;
-            }
-        }
-
-
-        public static List<Player> LoadFavoritePlayersSetting()
-        {
-            SettingsFileCheckingAndCorruption();
-            try
-            {
-                var doc = XDocument.Load(settingsFilePath);
-                var gender = LoadGenderTagSetting().ToString();
-                var team = LoadFavoriteTeamSetting()?.country;
-
-                var players = doc.Descendants("FavoritePlayer")
-                    .FirstOrDefault(fp =>
-                        (string)fp.Attribute("team") == team &&
-                        (string)fp.Attribute("gender") == gender)?
-                    .Elements("Player")
-                    .Select(p => new Player
-                    {
-                        name = p.Value,
-                        captain = bool.Parse(p.Attribute("captain")?.Value ?? "false"),
-                        shirt_number = int.Parse(p.Attribute("shirt_number")?.Value ?? "0"),
-                        position = p.Attribute("position")?.Value
-                    }).ToList();
-
-                return players ?? new List<Player>();
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show(ex.Message);
-                return new List<Player>();
-            }
-        }
-
-        public static void RemoveFavoritePlayerSettingByPlayer(Player player)
-        {
-            SettingsFileCheckingAndCorruption();
-            try
-            {
-                var doc = XDocument.Load(settingsFilePath);
-                var gender = LoadGenderTagSetting().ToString();
-                var team = LoadFavoriteTeamSetting()?.country;
-
-                var favoritePlayerElement = doc.Descendants("FavoritePlayer")
-                    .FirstOrDefault(fp =>
-                        (string)fp.Attribute("team") == team &&
-                        (string)fp.Attribute("gender") == gender);
-
-                if (favoritePlayerElement == null)
-                    return;
-
-                var playerElement = favoritePlayerElement.Elements("Player")
-                    .FirstOrDefault(p =>
-                        (string)p.Value == player.name &&
-                        (int)p.Attribute("shirt_number") == player.shirt_number);
-
-                if (playerElement != null)
-                {
-                    playerElement.Remove();
-                    doc.Save(settingsFilePath);
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show(ex.Message);
-            }
-        }
-
-        public static bool IsFavoritePlayerSetting(Player player)
-        {
-            SettingsFileCheckingAndCorruption();
-            try
-            {
-                var doc = XDocument.Load(settingsFilePath);
-                var gender = LoadGenderTagSetting().ToString();
-                var team = LoadFavoriteTeamSetting()?.country;
-
-                if (string.IsNullOrEmpty(team) || string.IsNullOrEmpty(gender))
-                    return false;
-
-                var favoritePlayerElement = doc.Descendants("FavoritePlayer")
-                    .FirstOrDefault(fp =>
-                        (string)fp.Attribute("team") == team &&
-                        (string)fp.Attribute("gender") == gender);
-
-                if (favoritePlayerElement == null)
-                    return false;
-
-                var playerElement = favoritePlayerElement.Elements("Player")
-                    .FirstOrDefault(p =>
-                        (string)p.Value == player.name &&
-                        (int)p.Attribute("shirt_number") == player.shirt_number);
-
-                return playerElement != null;
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show(ex.Message);
-                return false;
-            }
-        }
-
-        public static void SavePlayerPicturePath(string picturePath, Player player)
-        {
-            SettingsFileCheckingAndCorruption();
-            try
-            {
-                string gender = LoadGenderTagSetting().ToString();
-                string team = LoadFavoriteTeamSetting()?.country;
-                string fileName = $"{player.shirt_number}_{player.name}.png";
-                string savePath = Path.Combine(settingsWindowsFormPicturePath, fileName);
-
-                XDocument doc = XDocument.Load(settingsWindowsFormFilePath);
-
-                // Remove or create new PlayerPicture section
-                XElement playerPictureElement = doc.Root.Elements("PlayerPicture")
-                    .FirstOrDefault(pp => pp.Attribute("team")?.Value == team && pp.Attribute("gender")?.Value == gender);
-
-                if (playerPictureElement == null)
-                {
-                    playerPictureElement = new XElement("PlayerPicture",
-                        new XAttribute("team", team),
-                        new XAttribute("gender", gender)
-                    );
-                    doc.Root.Add(playerPictureElement);
-                }
-
-                // Add or replace the specific player element
-                XElement existing = playerPictureElement.Elements("Player").FirstOrDefault(p =>
-                    p.Value == fileName &&
-                    (int)p.Attribute("shirt_number") == player.shirt_number);
-
-                if (existing != null)
-                {
-                    existing.ReplaceWith(new XElement("Player",
-                        new XAttribute("captain", player.captain),
-                        new XAttribute("shirt_number", player.shirt_number),
-                        new XAttribute("position", player.position),
-                        new XAttribute("name", player.name),
-                        fileName
-                    ));
-                }
-                else
-                {
-                    playerPictureElement.Add(new XElement("Player",
-                        new XAttribute("captain", player.captain),
-                        new XAttribute("shirt_number", player.shirt_number),
-                        new XAttribute("position", player.position),
-                        new XAttribute("name", player.name),
-                        fileName
-                    ));
-                }
-
-                doc.Save(settingsWindowsFormFilePath);
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show("Error saving player picture path: " + ex.Message);
-            }
-        }
-
         public static string LoadPlayerPicturePath(Player player)
         {
             SettingsFileCheckingAndCorruption();
             try
             {
                 string gender = LoadGenderTagSetting().ToString();
-                string team = LoadFavoriteTeamSetting()?.country;
+                
 
                 XDocument doc = XDocument.Load(settingsWindowsFormFilePath);
 
-                XElement playerPictureElement = doc.Root.Elements("PlayerPicture")
-                    .FirstOrDefault(pp => pp.Attribute("team")?.Value == team && pp.Attribute("gender")?.Value == gender);
+                XElement teamElementHome = doc.Root
+                .Elements("PlayerPicture")
+                .FirstOrDefault(pp =>
+                    pp.Attribute("team")?.Value == MainWindow.HomeTeam.country &&
+                     pp.Attribute("gender")?.Value == gender);
 
-                if (playerPictureElement == null) return null;
+                XElement teamElementAway = doc.Root
+                .Elements("PlayerPicture")
+                .FirstOrDefault(pp =>
+                    pp.Attribute("team")?.Value == MainWindow.AwayTeam.country &&
+                     pp.Attribute("gender")?.Value == gender);
 
-                XElement playerElement = playerPictureElement.Elements("Player").FirstOrDefault(p =>
-                    (int)p.Attribute("shirt_number") == player.shirt_number &&
-                    p.Attribute("name")?.Value == player.name);
+                XElement playerPictureElementHome = null;
+                XElement playerPictureElementAway = null;
 
-                if (playerElement != null)
+                if (teamElementHome != null) {
+                    playerPictureElementHome = teamElementHome
+                    .Elements("Player")
+                    .FirstOrDefault(p =>
+                        (int)p.Attribute("shirt_number") == player.shirt_number &&
+                        p.Attribute("name")?.Value == player.name);
+                }
+
+                if (teamElementAway != null)
                 {
-                    string fileName = playerElement.Value;
+                   playerPictureElementAway = teamElementAway
+                    .Elements("Player")
+                    .FirstOrDefault(p =>
+                        (int)p.Attribute("shirt_number") == player.shirt_number &&
+                        p.Attribute("name")?.Value == player.name);
+                }
+                
+
+
+                if (playerPictureElementHome != null)
+                {
+                    string fileName = playerPictureElementHome.Value;
+                    return Path.Combine(settingsWindowsFormPicturePath, fileName);
+                }
+                if (playerPictureElementAway != null)
+                {
+                    string fileName = playerPictureElementAway.Value;
                     return Path.Combine(settingsWindowsFormPicturePath, fileName);
                 }
 
@@ -638,7 +366,7 @@ namespace WorldCupWPF.Utilities
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show("Error loading player picture path: " + ex.Message);
+                MessageBox.Show("Error loading player picture path: " + ex.Message);
                 return null;
             }
         }
