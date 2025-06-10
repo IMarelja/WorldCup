@@ -10,8 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Xml;
 using System.Xml.Linq;
-using WCRepo.Model;
-using WCRepo.Models;
+using Models;
 
 namespace WorldCupWPF.Utilities
 {

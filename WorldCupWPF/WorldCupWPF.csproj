@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WCRepo\WCRepo.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Textures\Languages\Lang.Designer.cs">
       <DependentUpon>Lang.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -34,6 +30,11 @@
 
   <ItemGroup>
     <Folder Include="Information\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Moduls\Moduls.csproj" />
+    <ProjectReference Include="..\WCRepo\WCRepo.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WCRepo.Model;
+using Models;
 using WorldCupWPF.Utilities;
 
 namespace WorldCupWPF

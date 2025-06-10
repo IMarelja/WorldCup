@@ -6,8 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml;
-using WCRepo.Model;
-using WCRepo.Models;
+using Models;
 using System.Globalization;
 using System.Resources;
 

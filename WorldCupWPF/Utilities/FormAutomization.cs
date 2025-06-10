@@ -10,7 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using WCRepo.Model;
+using Models;
 using WorldCupWPF;
 
 namespace WorldCupWPF.Utilities

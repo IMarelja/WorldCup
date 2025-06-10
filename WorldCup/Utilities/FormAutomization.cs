@@ -7,7 +7,7 @@ using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using WCRepo.Model;
+using Models;
 
 namespace WorldCup.Utilities
 {

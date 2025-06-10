@@ -11,8 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WCRepo.Model;
-using WCRepo.Models;
+using Models;
 using WCRepo.Repository;
 using WorldCupWPF.Utilities;
 using WorldCupWPF.Windows_Tools;
@@ -109,7 +108,7 @@ namespace WorldCupWPF
 
                 playingFieldWorldCup.Children.Clear();
 
-                WCRepo.Model.Match match = repository.GetMatchBetweenTeams(HomeTeam.id, AwayTeam.id, group);
+                Models.Match match = repository.GetMatchBetweenTeams(HomeTeam.id, AwayTeam.id, group);
 
                 playingFieldWorldCup.Children.Clear();
 

@@ -4,9 +4,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WCRepo.Model;
-using WCRepo.Models;
+using Models;
 using System.Text.Json;
+using Moduls;
 
 namespace WCRepo.Repository
 {

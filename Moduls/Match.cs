@@ -6,9 +6,8 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WCRepo.Models;
 
-namespace WCRepo.Model
+namespace Models
 {
     public partial class Match
     {
@@ -78,12 +77,6 @@ namespace WCRepo.Model
         [JsonProperty("country")]
         public string country { get; set; }
 
-        [JsonProperty("yellow_cards")]
-        public long yellow_cards { get; set; }
-
-        [JsonProperty("red_cards")]
-        public long red_cards { get; set; }
-
         [JsonProperty("starting_eleven")]
         public List<Player> starting_eleven { get; set; }
 
@@ -97,12 +90,12 @@ namespace WCRepo.Model
 
     public partial class Match
     {
-        public static Match FromJson(string json) => JsonConvert.DeserializeObject<Match>(json, WCRepo.Model.Converter.Settings);
+        public static Match FromJson(string json) => JsonConvert.DeserializeObject<Match>(json, Models.Converter.Settings);
     }
 
     public static class Serialize
     {
-        public static string ToJson(this Match self) => JsonConvert.SerializeObject(self, WCRepo.Model.Converter.Settings);
+        public static string ToJson(this Match self) => JsonConvert.SerializeObject(self, Models.Converter.Settings);
     }
 
     internal static class Converter

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using WCRepo.Model;
+using Models;
 using WorldCup.Utilities;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 

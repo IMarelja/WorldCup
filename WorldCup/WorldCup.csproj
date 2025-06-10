@@ -9,11 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WCRepo\WCRepo.csproj" />
+    <Folder Include="Settings\Pictures\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Settings\Pictures\" />
+    <ProjectReference Include="..\Moduls\Moduls.csproj" />
+    <ProjectReference Include="..\WCRepo\WCRepo.csproj" />
   </ItemGroup>
 
   <ItemGroup>

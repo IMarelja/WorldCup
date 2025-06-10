@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using WCRepo.Model;
-using WCRepo.Models;
+using Models;
+using Moduls;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WCRepo.Repository
@@ -27,10 +27,10 @@ namespace WCRepo.Repository
             return JsonSerializer.Deserialize<List<Match>>(json);
         }
 
-        private List<Result> LoadResults(Gender group)
+        private List<Moduls.Result> LoadResults(Gender group)
         {
             string json = JsonDataLoad("results.json", group);
-            return JsonSerializer.Deserialize<List<Result>>(json);
+            return JsonSerializer.Deserialize<List<Moduls.Result>>(json);
         }
 
         public Player GetPlayer(int PlayerID,int TeamID, Gender group)
@@ -157,7 +157,7 @@ namespace WCRepo.Repository
 
         public Result GetResult(int TeamID, Gender group)
         {
-            var results = LoadResults(group);
+            List<Result> results = LoadResults(group);
             return results.FirstOrDefault(t => t.id == TeamID);
         }
 
