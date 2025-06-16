@@ -1,0 +1,30 @@
+﻿<Window x:Name="windowTeamInformation" x:Class="WorldCupWPF.Windows_Tools.TeamInformation"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WorldCupWPF.Windows_Tools"
+        mc:Ignorable="d" Height="330" Width="199" Loaded="windowTeamInformation_Loaded" ResizeMode="NoResize">
+    <Grid Margin="0,0,0,2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="83*"/>
+            <ColumnDefinition Width="116*"/>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="lbCountry" Content="Country" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="180" Grid.ColumnSpan="2"/>
+        <Label x:Name="lbFifaCode" Content="FifaCode" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top" Width="180" Grid.ColumnSpan="2"/>
+        <Label x:Name="lbWins" Content="Wins" HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top" Width="90" Grid.ColumnSpan="2"/>
+        <Label x:Name="lbLoses" Content="Loses" HorizontalAlignment="Left" Margin="10,95,0,0" VerticalAlignment="Top" Width="90" Grid.ColumnSpan="2"/>
+        <Label x:Name="lbWinsCount" Content="null" HorizontalAlignment="Left" Margin="17,64,0,0" VerticalAlignment="Top" Width="90" Grid.Column="1"/>
+        <Label x:Name="lbLosesCount" Content="null" HorizontalAlignment="Left" Margin="17,95,0,0" VerticalAlignment="Top" Width="90" Grid.Column="1"/>
+        <Label x:Name="lbDraw" Content="Draw" HorizontalAlignment="Left" Margin="10,126,0,0" VerticalAlignment="Top" Width="90" Grid.ColumnSpan="2"/>
+        <Label x:Name="lbDrawCount" Content="null" HorizontalAlignment="Left" Margin="17,126,0,0" VerticalAlignment="Top" Width="90" Grid.Column="1"/>
+        <Label x:Name="lbScored" Content="Scored" HorizontalAlignment="Left" Margin="10,192,0,0" VerticalAlignment="Top" Width="90" Grid.ColumnSpan="2"/>
+        <Label x:Name="lbConceived" Content="Conceived" HorizontalAlignment="Left" Margin="10,223,0,0" VerticalAlignment="Top" Width="90" Grid.ColumnSpan="2"/>
+        <Label x:Name="lbScoredCount" Content="null" HorizontalAlignment="Left" Margin="17,192,0,0" VerticalAlignment="Top" Width="90" Grid.Column="1"/>
+        <Label x:Name="lbConcivedCount" Content="null" HorizontalAlignment="Left" Margin="17,223,0,0" VerticalAlignment="Top" Width="90" Grid.Column="1"/>
+        <Label x:Name="lbDifference" Content="Difference" HorizontalAlignment="Left" Margin="10,254,0,0" VerticalAlignment="Top" Width="90" Grid.ColumnSpan="2"/>
+        <Label x:Name="lbDifferenceCount" Content="null" HorizontalAlignment="Left" Margin="17,254,0,0" VerticalAlignment="Top" Width="90" Grid.Column="1"/>
+        <Label x:Name="lbGoals" Content="Goals" HorizontalAlignment="Left" Margin="10,166,0,0" VerticalAlignment="Top" Width="180" Grid.ColumnSpan="2"/>
+
+    </Grid>
+</Window>

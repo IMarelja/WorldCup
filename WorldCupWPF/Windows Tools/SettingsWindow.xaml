@@ -1,0 +1,23 @@
+﻿<Window x:Class="WorldCupWPF.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WorldCupWPF"
+        mc:Ignorable="d"
+        Title="Settings" Height="354" Width="394" Loaded="windowSettings_Loaded">
+    <Grid Margin="0,0,0,4">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <GroupBox x:Name="gbResolution" Grid.Column="1" Header="Resolution" Loaded="gbResolution_Loaded"/>
+        <GroupBox x:Name="gbGender" Header="Gender" Loaded="gbGender_Loaded"/>
+        <GroupBox x:Name="gbLanguage" Header="Language" Grid.Row="1" Loaded="gbLanguage_Loaded"/>
+        <Button x:Name="btnApply" Grid.Column="1" Content="Apply" Grid.Row="1" FontSize="20" Height="45" VerticalAlignment="Center" HorizontalAlignment="Center" Width="86" Click="btnApply_Click"/>
+    </Grid>
+</Window>
